@@ -378,6 +378,7 @@ h3 {
 
 .legacy-layout {
   position: relative;
+  container-type: inline-size;
   width: min(100%, 760px);
   margin: 1.5rem auto 0;
   overflow: hidden;
@@ -392,6 +393,12 @@ h3 {
   object-fit: fill;
 }
 
+.legacy-layout__text {
+  position: absolute;
+  overflow: hidden;
+  text-wrap: pretty;
+}
+
 .legacy-layout figcaption {
   position: absolute;
   width: 1px;
@@ -399,6 +406,90 @@ h3 {
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+.legacy-article {
+  width: min(100%, 760px);
+  margin: 1.5rem auto 0;
+  padding: 2rem;
+  overflow: hidden;
+  background-color: #ffffff;
+  background-position: center;
+  background-size: cover;
+  border: 1px solid #303a49;
+  border-radius: 8px;
+}
+
+.legacy-article__image {
+  display: block;
+  width: auto;
+  max-width: min(100%, 260px);
+  height: auto;
+  margin: 0 auto 1.5rem;
+}
+
+.legacy-article h3 {
+  margin-bottom: 1rem;
+  font-size: 2.25rem;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.legacy-article p {
+  margin: 0 0 1rem;
+}
+
+.legacy-article__body {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.legacy-article__subtitle,
+.legacy-article__detail,
+.legacy-article__closing {
+  font-weight: 700;
+  text-align: center;
+}
+
+.legacy-article__detail span {
+  display: block;
+}
+
+.legacy-article--plain {
+  color: #400080;
+}
+
+.legacy-article--plain .legacy-article__body {
+  text-align: center;
+}
+
+.legacy-article--space {
+  min-height: 720px;
+  padding: 2.5rem;
+  color: #ffffff;
+}
+
+.legacy-article--space .legacy-article__image {
+  float: left;
+  margin: 0 2rem 1rem 0;
+}
+
+.legacy-article--space h3,
+.legacy-article--space .legacy-article__subtitle,
+.legacy-article--space .legacy-article__detail {
+  color: #fff36a;
+}
+
+.legacy-article--space .legacy-article__body {
+  clear: both;
+  padding-top: 2rem;
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 1.2rem;
+}
+
+.legacy-article--space .legacy-article__body p::first-letter {
+  font-size: 2.5em;
+  line-height: 0.85;
 }
 
 .modal__notice {
@@ -468,5 +559,27 @@ h3 {
 
   .modal__image {
     max-height: 65dvh;
+  }
+
+  .legacy-article {
+    padding: 1.25rem;
+  }
+
+  .legacy-article h3 {
+    font-size: 1.75rem;
+  }
+
+  .legacy-article--space {
+    min-height: auto;
+  }
+
+  .legacy-article--space .legacy-article__image {
+    float: none;
+    margin: 0 auto 1.5rem;
+  }
+
+  .legacy-article--space .legacy-article__body {
+    padding-top: 1rem;
+    font-size: 1rem;
   }
 }

@@ -108,6 +108,14 @@ function renderStudentModal(student) {
     `;
   }
 
+  if (student.legacyLayout?.type === 'article') {
+    return `
+      <h2 id="modal-title">${name}</h2>
+      <p class="modal__group">Curso ${group}</p>
+      ${renderLegacyArticle(student)}
+    `;
+  }
+
   if (!student.hasProfileImage || !student.image) {
     return `
       <h2 id="modal-title">${name}</h2>
@@ -127,19 +135,55 @@ function renderStudentModal(student) {
 function renderLegacyLayout(student) {
   const layout = student.legacyLayout;
   const name = escapeHtml(student.name);
-  const images = layout.images.map((image) => `
+  const images = (layout.images || []).map((image) => `
     <img
       class="legacy-layout__image"
       src="./${escapeHtml(image.src)}"
       alt="${escapeHtml(image.alt)}"
       style="left: ${(image.left / layout.width) * 100}%; top: ${(image.top / layout.height) * 100}%; width: ${(image.width / layout.width) * 100}%; height: ${(image.height / layout.height) * 100}%;">
   `).join("");
+  const textBlocks = (layout.textBlocks || []).map((block) => `
+    <div
+      class="legacy-layout__text"
+      style="left: ${(block.left / layout.width) * 100}%; top: ${(block.top / layout.height) * 100}%; width: ${(block.width / layout.width) * 100}%; height: ${(block.height / layout.height) * 100}%; color: ${escapeHtml(block.color)}; font-size: ${(block.fontSize / layout.width) * 100}cqw; line-height: ${block.lineHeight}; font-weight: ${block.fontWeight}; text-align: ${escapeHtml(block.textAlign)}; font-family: ${escapeHtml(block.fontFamily)};">
+      ${escapeHtml(block.text)}
+    </div>
+  `).join("");
 
   return `
     <figure class="legacy-layout" style="aspect-ratio: ${layout.width} / ${layout.height}; background: ${escapeHtml(layout.background)};">
       ${images}
+      ${textBlocks}
       <figcaption>Composición original de ${name}</figcaption>
     </figure>
+  `;
+}
+
+function renderLegacyArticle(student) {
+  const layout = student.legacyLayout;
+  const image = layout.image
+    ? `<img class="legacy-article__image" src="./${escapeHtml(layout.image.src)}" alt="${escapeHtml(layout.image.alt)}" width="${layout.image.width}" height="${layout.image.height}">`
+    : "";
+  const details = (layout.details || []).map((detail) => `
+    <p class="legacy-article__detail"><span>${escapeHtml(detail.label)}:</span> ${escapeHtml(detail.value)}</p>
+  `).join("");
+  const paragraphs = (layout.paragraphs || []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("");
+  const closing = (layout.closing || []).map((line) => `<p class="legacy-article__closing">${escapeHtml(line)}</p>`).join("");
+  const backgroundStyle = layout.backgroundImage
+    ? ` style="background-image: linear-gradient(rgb(0 0 0 / 18%), rgb(0 0 0 / 18%)), url('./${escapeHtml(layout.backgroundImage)}');"`
+    : "";
+
+  return `
+    <article class="legacy-article legacy-article--${escapeHtml(layout.theme)}"${backgroundStyle}>
+      ${image}
+      ${layout.title ? `<h3>${escapeHtml(layout.title)}</h3>` : ""}
+      ${layout.subtitle ? `<p class="legacy-article__subtitle">${escapeHtml(layout.subtitle)}</p>` : ""}
+      ${details}
+      <div class="legacy-article__body">
+        ${paragraphs}
+        ${closing}
+      </div>
+    </article>
   `;
 }
 

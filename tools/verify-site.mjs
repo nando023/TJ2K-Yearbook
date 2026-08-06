@@ -46,8 +46,24 @@ assert(students.length >= 35, "student data should include the graduating class"
 assert(students.some((student) => student.group === "11A"), "student data should include 11A");
 assert(students.some((student) => student.group === "11B"), "student data should include 11B");
 
+const legacyLayoutStudents = students.filter((student) => student.legacyLayout);
 const compositeStudents = students.filter((student) => student.legacyLayout?.type === "composite");
-assert(compositeStudents.length === 7, "student data must include seven composite legacy layouts");
+const articleStudents = students.filter((student) => student.legacyLayout?.type === "article");
+assert(legacyLayoutStudents.length === 10, "student data must include ten legacy-aware alumni layouts");
+assert(compositeStudents.length === 8, "student data must include eight composite legacy layouts");
+assert(articleStudents.length === 2, "student data must include two article legacy layouts");
+assert(
+  students.some((student) => student.id === "galindo-olarte-andres-david" && student.legacyLayout?.type === "article"),
+  "Galindo must render the rest of the original text-heavy page",
+);
+assert(
+  students.some((student) => student.id === "martinez-garzon-ingrid-dahilla" && student.legacyLayout?.type === "article"),
+  "Ingrid must render the original text, not only the photo",
+);
+assert(
+  students.some((student) => student.id === "neira-castano-nasbly-hilduara" && student.legacyLayout?.textBlocks?.length === 1),
+  "Nasbly must render the positioned legacy text block",
+);
 
 const activeProm2000Sections = appJs.match(/\{\s*name:\s*'Prom 2000',\s*active:\s*true\s*\}/g) || [];
 assert(activeProm2000Sections.length === 1, "app.js must declare exactly one active Prom 2000 section");
@@ -95,10 +111,23 @@ for (const student of students.filter((entry) => entry.hasProfileImage)) {
 for (const student of compositeStudents) {
   assert(student.legacyLayout.width > 0, `${student.name} composite layout must have width`);
   assert(student.legacyLayout.height > 0, `${student.name} composite layout must have height`);
-  assert(student.legacyLayout.images.length === 2, `${student.name} composite layout must use two images`);
+  assert(student.legacyLayout.images.length >= 1, `${student.name} composite layout must use at least one image`);
 
   for (const image of student.legacyLayout.images) {
     assert(fs.existsSync(path.join(siteDir, image.src)), `${student.name} composite asset must exist: ${image.src}`);
+  }
+}
+
+for (const student of articleStudents) {
+  const layout = student.legacyLayout;
+  assert(Array.isArray(layout.paragraphs) && layout.paragraphs.length > 0, `${student.name} article layout must include paragraphs`);
+
+  if (layout.image) {
+    assert(fs.existsSync(path.join(siteDir, layout.image.src)), `${student.name} article image must exist: ${layout.image.src}`);
+  }
+
+  if (layout.backgroundImage) {
+    assert(fs.existsSync(path.join(siteDir, layout.backgroundImage)), `${student.name} article background must exist: ${layout.backgroundImage}`);
   }
 }
 
@@ -111,6 +140,8 @@ for (const asset of requiredPromAssets) {
 }
 
 assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
+assert(appJs.includes("renderLegacyArticle(student)"), "app.js must render article alumni layouts");
 assert(stylesCss.includes(".legacy-layout"), "styles.css must style composite alumni layouts");
+assert(stylesCss.includes(".legacy-article"), "styles.css must style article alumni layouts");
 
 if (!process.exitCode) console.log("Static site verification passed.");

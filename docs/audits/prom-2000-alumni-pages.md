@@ -7,12 +7,20 @@
 - Current students without legacy page: Cárdenas Uribe Cristian Fernando, Urrea Hernandez Carlos Daniel
 - Multi-image legacy pages found: 8
 - Text-layer legacy pages needing review: 2
+- Reported alumni pages fixed in the modern site: 7
 
 ## Recommended Treatment
 
 Seven pages can be migrated as responsive layered image composites because the legacy page is a designed background image plus one positioned overlay image.
 
-Galindo Olarte Andres David is different: the page is a Microsoft Word HTML export with typed text over `FONDO_PLANETA.jpg`, plus a student photo and a divider GIF. Neira Castaño Nasbly Hilduara also has a large positioned text layer over the profile image. These should be reviewed with the user before recreating the text-heavy layouts.
+Galindo Olarte Andres David is different: the page is a Microsoft Word HTML export with typed text over `FONDO_PLANETA.jpg`, plus a student photo and a divider GIF. Neira Castaño Nasbly Hilduara also has a large positioned text layer over the profile image. These were rebuilt as modern text-aware layouts after the user flagged them for correction.
+
+## Resolution Notes
+
+- Álvarez Castrillon Bernardo, Jiménez Giraldo Luisa Fernanda, Mesa De La Ossa Carolina, and Villamizar Angulo Rafael Antonio now account for the original centered base image before placing the overlay photo.
+- Galindo Olarte Andres David now includes the missing page content with the space background, portrait, title, profession, body text, and closing lines.
+- Martínez Garzón Ingrid Dahilla now includes the original written farewell text below the portrait.
+- Neira Castaño Nasbly Hilduara now includes the missing positioned text block over the original page image.
 
 ## Discrepancies
 
