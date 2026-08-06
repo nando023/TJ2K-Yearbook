@@ -334,13 +334,5 @@ export const students = [
     "legacyPage": "Archive/ANUARIO/paginas11/maikel.htm",
     "image": "Archive/ANUARIO/imagenes/alumnos/Maikel.JPG",
     "hasProfileImage": true
-  },
-  {
-    "id": "preview",
-    "name": "PREVIEW",
-    "group": "11A",
-    "legacyPage": "Archive/ANUARIO/portadas_inicios/profesores1.htm",
-    "image": "",
-    "hasProfileImage": false
   }
 ];

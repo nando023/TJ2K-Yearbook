@@ -39,7 +39,10 @@ function slugify(value) {
 }
 
 const html = fs.readFileSync(promPath, "latin1");
-const rows = [...html.matchAll(/<tr[\s\S]*?<\/tr>/gi)];
+const studentTable = [...html.matchAll(/<table\b[^>]*>[\s\S]*?<\/table>/gi)].find(
+  ([table]) => /<a\s+href=["']\.\.\/paginas11\//i.test(table),
+)?.[0] || "";
+const rows = [...studentTable.matchAll(/<tr[\s\S]*?<\/tr>/gi)];
 const students = [];
 
 for (const row of rows) {
