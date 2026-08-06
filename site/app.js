@@ -100,6 +100,14 @@ function renderStudentModal(student) {
   const name = escapeHtml(student.name);
   const group = escapeHtml(student.group);
 
+  if (student.legacyLayout?.type === 'composite') {
+    return `
+      <h2 id="modal-title">${name}</h2>
+      <p class="modal__group">Curso ${group}</p>
+      ${renderLegacyLayout(student)}
+    `;
+  }
+
   if (!student.hasProfileImage || !student.image) {
     return `
       <h2 id="modal-title">${name}</h2>
@@ -113,6 +121,25 @@ function renderStudentModal(student) {
     <h2 id="modal-title">${name}</h2>
     <p class="modal__group">Curso ${group}</p>
     <img class="modal__image" src="${imagePath}" alt="Retrato de ${name}">
+  `;
+}
+
+function renderLegacyLayout(student) {
+  const layout = student.legacyLayout;
+  const name = escapeHtml(student.name);
+  const images = layout.images.map((image) => `
+    <img
+      class="legacy-layout__image"
+      src="./${escapeHtml(image.src)}"
+      alt="${escapeHtml(image.alt)}"
+      style="left: ${(image.left / layout.width) * 100}%; top: ${(image.top / layout.height) * 100}%; width: ${(image.width / layout.width) * 100}%; height: ${(image.height / layout.height) * 100}%;">
+  `).join("");
+
+  return `
+    <figure class="legacy-layout" style="aspect-ratio: ${layout.width} / ${layout.height}; background: ${escapeHtml(layout.background)};">
+      ${images}
+      <figcaption>Composición original de ${name}</figcaption>
+    </figure>
   `;
 }
 

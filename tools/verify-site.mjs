@@ -46,6 +46,9 @@ assert(students.length >= 35, "student data should include the graduating class"
 assert(students.some((student) => student.group === "11A"), "student data should include 11A");
 assert(students.some((student) => student.group === "11B"), "student data should include 11B");
 
+const compositeStudents = students.filter((student) => student.legacyLayout?.type === "composite");
+assert(compositeStudents.length === 7, "student data must include seven composite legacy layouts");
+
 const activeProm2000Sections = appJs.match(/\{\s*name:\s*'Prom 2000',\s*active:\s*true\s*\}/g) || [];
 assert(activeProm2000Sections.length === 1, "app.js must declare exactly one active Prom 2000 section");
 assert(
@@ -89,6 +92,16 @@ for (const student of students.filter((entry) => entry.hasProfileImage)) {
   assert(fs.existsSync(packagedImage), `${student.name} packaged image must exist: ${path.relative(root, packagedImage)}`);
 }
 
+for (const student of compositeStudents) {
+  assert(student.legacyLayout.width > 0, `${student.name} composite layout must have width`);
+  assert(student.legacyLayout.height > 0, `${student.name} composite layout must have height`);
+  assert(student.legacyLayout.images.length === 2, `${student.name} composite layout must use two images`);
+
+  for (const image of student.legacyLayout.images) {
+    assert(fs.existsSync(path.join(siteDir, image.src)), `${student.name} composite asset must exist: ${image.src}`);
+  }
+}
+
 for (const asset of requiredPromAssets) {
   assert(fs.existsSync(path.join(siteDir, asset)), `Prom 2000 asset must exist: ${asset}`);
   assert(
@@ -96,5 +109,8 @@ for (const asset of requiredPromAssets) {
     `Prom 2000 asset must be referenced by the static site: ${asset}`,
   );
 }
+
+assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
+assert(stylesCss.includes(".legacy-layout"), "styles.css must style composite alumni layouts");
 
 if (!process.exitCode) console.log("Static site verification passed.");
