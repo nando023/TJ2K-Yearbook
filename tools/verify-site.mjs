@@ -112,6 +112,17 @@ const requiredEquiposAssets = [
   "assets/equipos/porristas-infantil.jpg",
   "assets/equipos/porristas-bachillerato.jpg",
 ];
+const requiredParejasAssets = [
+  "assets/parejas/fondo-parejas.gif",
+  "assets/parejas/bernardo-luisa.jpg",
+  "assets/parejas/depravado.jpg",
+  "assets/parejas/elena.jpg",
+  "assets/parejas/maria-paula.jpg",
+  "assets/parejas/ska-chulo.jpg",
+  "assets/parejas/novios.jpg",
+  "assets/parejas/prieto.jpg",
+  "assets/parejas/mi-poste-y-yo.jpg",
+];
 const expectedBachilleratoCards = [
   {
     title: "Sexto A",
@@ -215,6 +226,16 @@ const expectedEquiposCards = [
     detail: "Tatiana Jimenez, Laura Sanchez",
   },
 ];
+const expectedParejasCards = [
+  { title: "Bernardo y Luisa", image: "assets/parejas/bernardo-luisa.jpg" },
+  { title: "Depravado", image: "assets/parejas/depravado.jpg" },
+  { title: "Elena", image: "assets/parejas/elena.jpg" },
+  { title: "Maria Paula", image: "assets/parejas/maria-paula.jpg" },
+  { title: "Ska y Chulo", image: "assets/parejas/ska-chulo.jpg" },
+  { title: "Novios", image: "assets/parejas/novios.jpg" },
+  { title: "Prieto", image: "assets/parejas/prieto.jpg" },
+  { title: "Mi poste y yo", image: "assets/parejas/mi-poste-y-yo.jpg" },
+];
 
 function assert(condition, message) {
   if (!condition) {
@@ -238,6 +259,7 @@ assert(indexHtml.includes('id="primaria"'), "Primaria section must exist");
 assert(indexHtml.includes('id="bachillerato"'), "Bachillerato section must exist");
 assert(indexHtml.includes('id="comites"'), "Comités section must exist");
 assert(indexHtml.includes('id="equipos"'), "Equipos section must exist");
+assert(indexHtml.includes('id="parejas"'), "Parejas section must exist");
 assert(indexHtml.includes("Momentos 11"), "Prom 2000 section must include Momentos 11");
 assert(indexHtml.includes("Palabras 11"), "Palabras section must include Palabras 11");
 assert(indexHtml.includes("Adolfo Ballesteros F. Prom 2000"), "Palabras 11 text must include its signature");
@@ -328,7 +350,12 @@ assert(indexHtml.includes("Katerine Dueñas"), "Equipos must decode Porristas in
 assert(indexHtml.includes("Porristas bachillerato"), "Equipos must include Porristas bachillerato");
 assert(indexHtml.includes("Nasbly Neira, Diana Zapata, Carolina Palacios"), "Equipos must include Porristas bachillerato roster details");
 assert(indexHtml.includes('href="#comites">Anterior: Comités</a>'), "Equipos must link back to Comités");
-assert(indexHtml.includes("<span>Siguiente: Parejas</span>"), "Equipos must preserve Parejas as the next section");
+assert(indexHtml.includes('href="#parejas">Siguiente: Parejas</a>'), "Equipos must link forward to Parejas");
+assert(indexHtml.includes("Bernardo y Luisa"), "Parejas must include Bernardo y Luisa");
+assert(indexHtml.includes("Ska y Chulo"), "Parejas must include Ska y Chulo");
+assert(indexHtml.includes("Mi poste y yo"), "Parejas must include Mi poste y yo");
+assert(indexHtml.includes('href="#equipos">Anterior: Equipos</a>'), "Parejas must link back to Equipos");
+assert(indexHtml.includes("<span>Siguiente: Hermanos</span>"), "Parejas must preserve Hermanos as the next section");
 assert(!indexHtml.toLowerCase().includes(".swf"), "index.html must not embed Flash");
 assert(!appJs.toLowerCase().includes(".swf"), "app.js must not embed Flash");
 assert(!stylesCss.toLowerCase().includes(".swf"), "styles.css must not reference Flash");
@@ -383,6 +410,8 @@ const activeComitesSections = appJs.match(/\{\s*name:\s*'Comités',\s*active:\s*
 assert(activeComitesSections.length === 1, "app.js must declare exactly one active Comités section");
 const activeEquiposSections = appJs.match(/\{\s*name:\s*'Equipos',\s*active:\s*true,\s*href:\s*'#equipos'\s*\}/g) || [];
 assert(activeEquiposSections.length === 1, "app.js must declare exactly one active Equipos section");
+const activeParejasSections = appJs.match(/\{\s*name:\s*'Parejas',\s*active:\s*true,\s*href:\s*'#parejas'\s*\}/g) || [];
+assert(activeParejasSections.length === 1, "app.js must declare exactly one active Parejas section");
 assert(
   appJs.indexOf("name: 'Prom 2000'") < appJs.indexOf("name: 'Pre-escolar'"),
   "app.js must keep Prom 2000 before Pre-escolar to match the archive section order",
@@ -402,6 +431,10 @@ assert(
 assert(
   appJs.indexOf("name: 'Comités'") < appJs.indexOf("name: 'Equipos'"),
   "app.js must keep Comités before Equipos to match the archive section order",
+);
+assert(
+  appJs.indexOf("name: 'Equipos'") < appJs.indexOf("name: 'Parejas'"),
+  "app.js must keep Equipos before Parejas to match the archive section order",
 );
 assert(
   indexHtml.indexOf('href="#prom-2000"') < indexHtml.indexOf('href="#preescolar"'),
@@ -438,6 +471,14 @@ assert(
 assert(
   indexHtml.indexOf('id="comites"') < indexHtml.indexOf('id="equipos"'),
   "page sections must keep Comités before Equipos",
+);
+assert(
+  indexHtml.indexOf('href="#equipos"') < indexHtml.indexOf('href="#parejas"'),
+  "top navigation must keep Equipos before Parejas",
+);
+assert(
+  indexHtml.indexOf('id="equipos"') < indexHtml.indexOf('id="parejas"'),
+  "page sections must keep Equipos before Parejas",
 );
 assert(
   appJs.includes("item.textContent = active ? name : `${name} (pendiente)`;"),
@@ -577,6 +618,14 @@ for (const asset of requiredEquiposAssets) {
   );
 }
 
+for (const asset of requiredParejasAssets) {
+  assert(fs.existsSync(path.join(siteDir, asset)), `Parejas asset must exist: ${asset}`);
+  assert(
+    indexHtml.includes(asset) || stylesCss.includes(asset),
+    `Parejas asset must be referenced by the static site: ${asset}`,
+  );
+}
+
 const bachilleratoSection = indexHtml.match(/<section id="bachillerato"[\s\S]*?<\/section>\s*<\/main>/)?.[0] || "";
 const bachilleratoCardMatches = [...bachilleratoSection.matchAll(/<article class="bachillerato-card">([\s\S]*?)<\/article>/g)];
 assert(bachilleratoCardMatches.length === expectedBachilleratoCards.length, "Bachillerato must render exactly 12 class cards");
@@ -611,6 +660,16 @@ expectedEquiposCards.forEach((expected, index) => {
   assert(card.includes(expected.detail), `${expected.title} must preserve source detail`);
 });
 
+const parejasSection = indexHtml.match(/<section id="parejas"[\s\S]*?<\/section>\s*<\/main>/)?.[0] || "";
+const parejasCardMatches = [...parejasSection.matchAll(/<figure class="pareja-card">([\s\S]*?)<\/figure>/g)];
+assert(parejasCardMatches.length === expectedParejasCards.length, "Parejas must render exactly eight photo cards");
+
+expectedParejasCards.forEach((expected, index) => {
+  const card = parejasCardMatches[index]?.[1] || "";
+  assert(card.includes(`<figcaption>${expected.title}</figcaption>`), `Parejas card ${index + 1} must be ${expected.title}`);
+  assert(card.includes(`src="./${expected.image}"`), `${expected.title} must use ${expected.image}`);
+});
+
 assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
 assert(appJs.includes("renderLegacyArticle(student)"), "app.js must render article alumni layouts");
 assert(stylesCss.includes(".legacy-layout"), "styles.css must style composite alumni layouts");
@@ -621,6 +680,8 @@ assert(stylesCss.includes("assets/equipos/fondo-fiesta.jpg"), "Equipos football 
 assert(stylesCss.includes("assets/equipos/fondo-porristas.jpg"), "Equipos cheer cards must use their original background");
 assert(stylesCss.includes(".equipo-card img {\n  display: block;\n  width: 100%;\n  height: auto;"), "Equipos images must render uncropped with natural aspect ratio");
 assert(!stylesCss.includes(".equipo-card:not(.equipo-card--wide) img"), "Equipos images must not use a shared cropping rule");
+assert(stylesCss.includes("assets/parejas/fondo-parejas.gif"), "Parejas must use its original background");
+assert(stylesCss.includes(".pareja-card img {\n  display: block;\n  width: 100%;\n  height: auto;"), "Parejas images must render uncropped with natural aspect ratio");
 assert(stylesCss.includes(".staff-grid"), "styles.css must style Personal administrativo staff grid");
 assert(stylesCss.includes(".services-layout"), "styles.css must style Servicios generales layout");
 assert(stylesCss.includes(".teacher-grid"), "styles.css must style Profesores teacher grid");
@@ -629,6 +690,7 @@ assert(stylesCss.includes(".primaria-layout"), "styles.css must style Primaria c
 assert(stylesCss.includes(".bachillerato-layout"), "styles.css must style Bachillerato class layout");
 assert(stylesCss.includes(".comites-layout"), "styles.css must style Comités layout");
 assert(stylesCss.includes(".equipos-layout"), "styles.css must style Equipos layout");
+assert(stylesCss.includes(".parejas-layout"), "styles.css must style Parejas layout");
 assert(stylesCss.includes(".section-sequence"), "styles.css must style section sequence navigation");
 
 if (!process.exitCode) console.log("Static site verification passed.");

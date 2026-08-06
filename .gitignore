@@ -8,6 +8,7 @@ build/
 .vite/
 .parcel-cache/
 .worktrees/
+.superpowers/
 
 # Azure/local deployment scratch files
 .azure/

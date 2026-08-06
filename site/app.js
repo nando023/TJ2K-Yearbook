@@ -12,7 +12,7 @@ const sections = [
   { name: 'Bachillerato', active: true, href: '#bachillerato' },
   { name: 'Comités', active: true, href: '#comites' },
   { name: 'Equipos', active: true, href: '#equipos' },
-  { name: 'Parejas', active: false },
+  { name: 'Parejas', active: true, href: '#parejas' },
   { name: 'Hermanos', active: false },
   { name: 'Collage', active: false },
 ];
