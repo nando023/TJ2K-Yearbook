@@ -730,6 +730,98 @@ h3 {
   color: #d6dee8;
 }
 
+.section--comites {
+  width: 100%;
+  max-width: none;
+  padding-right: max(5vw, calc((100vw - 1100px) / 2));
+  padding-left: max(5vw, calc((100vw - 1100px) / 2));
+  background:
+    linear-gradient(rgb(16 20 27 / 88%), rgb(16 20 27 / 80%)),
+    url("./assets/comites/fondo-comites.jpg") center / 240px repeat;
+  border-top: 1px solid #303a49;
+}
+
+.section--comites > * {
+  width: min(100%, 1100px);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.comites-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 1.25rem;
+}
+
+.comite-card {
+  display: grid;
+  align-content: start;
+  min-height: 100%;
+  overflow: hidden;
+  background: #171d27;
+  border: 1px solid #303a49;
+  border-radius: 8px;
+}
+
+.comite-card img {
+  display: block;
+  width: 100%;
+  max-height: 560px;
+  object-fit: contain;
+  object-position: center top;
+  background: #10141b;
+}
+
+.comite-card__body {
+  padding: 1.25rem;
+}
+
+.comite-card__label {
+  margin-bottom: 0.5rem;
+  color: #ffd95a;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.comite-card__body h3 {
+  margin-bottom: 0.75rem;
+}
+
+.comite-card__body p:not(.comite-card__label) {
+  color: #d6dee8;
+}
+
+.section-sequence {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+
+.section-sequence a,
+.section-sequence span {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 0.65rem 0.85rem;
+  color: #d6dee8;
+  background: #171d27;
+  border: 1px solid #303a49;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.section-sequence a:hover,
+.section-sequence a:focus-visible {
+  color: #ffffff;
+  border-color: #5ed0cf;
+}
+
+.section-sequence span {
+  color: #8f9cac;
+}
+
 .section--students {
   width: 100%;
   max-width: none;

@@ -10,7 +10,7 @@ const sections = [
   { name: 'Pre-escolar', active: true, href: '#preescolar' },
   { name: 'Primaria', active: true, href: '#primaria' },
   { name: 'Bachillerato', active: true, href: '#bachillerato' },
-  { name: 'Comités', active: false },
+  { name: 'Comités', active: true, href: '#comites' },
   { name: 'Equipos', active: false },
   { name: 'Parejas', active: false },
   { name: 'Hermanos', active: false },

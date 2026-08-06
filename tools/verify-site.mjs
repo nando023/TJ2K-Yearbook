@@ -100,6 +100,11 @@ const requiredBachilleratoAssets = [
   "assets/bachillerato/undecimo-a.jpg",
   "assets/bachillerato/undecimo-b.jpg",
 ];
+const requiredComitesAssets = [
+  "assets/comites/fondo-comites.jpg",
+  "assets/comites/gobierno-estudiantil.jpg",
+  "assets/comites/comite-anuario.jpg",
+];
 const expectedBachilleratoCards = [
   {
     title: "Sexto A",
@@ -174,6 +179,18 @@ const expectedBachilleratoCards = [
     teacher: "Profesor Manuel Gozalez",
   },
 ];
+const expectedComitesCards = [
+  {
+    title: "Gobierno estudiantil",
+    image: "assets/comites/gobierno-estudiantil.jpg",
+    detail: "Camilo Sarmiento - Adriana Calderón.",
+  },
+  {
+    title: "Comité anuario",
+    image: "assets/comites/comite-anuario.jpg",
+    detail: "Andrea Carolina Cuellar - Santiago Donosso - Nancy Diaz Quijano - Adolfo Ballesteros - David Osorio.",
+  },
+];
 
 function assert(condition, message) {
   if (!condition) {
@@ -195,6 +212,7 @@ assert(indexHtml.includes('id="profesores"'), "Profesores section must exist");
 assert(indexHtml.includes('id="preescolar"'), "Pre-escolar section must exist");
 assert(indexHtml.includes('id="primaria"'), "Primaria section must exist");
 assert(indexHtml.includes('id="bachillerato"'), "Bachillerato section must exist");
+assert(indexHtml.includes('id="comites"'), "Comités section must exist");
 assert(indexHtml.includes("Momentos 11"), "Prom 2000 section must include Momentos 11");
 assert(indexHtml.includes("Palabras 11"), "Palabras section must include Palabras 11");
 assert(indexHtml.includes("Adolfo Ballesteros F. Prom 2000"), "Palabras 11 text must include its signature");
@@ -268,6 +286,16 @@ assert(indexHtml.includes("Profesor Adolfo Triana"), "Bachillerato must include 
 assert(indexHtml.includes("Undécimo B"), "Bachillerato must include Undécimo B");
 assert(indexHtml.includes("Ausentes: Oswaldo Fajardo y Norma Forero"), "Bachillerato Undécimo B must preserve absent students");
 assert(indexHtml.includes("Profesor Manuel Gozalez"), "Bachillerato must include Undécimo B teacher");
+assert(indexHtml.includes("Gobierno estudiantil"), "Comités must include Gobierno estudiantil");
+assert(indexHtml.includes("Camilo Sarmiento - Adriana Calderón."), "Comités must include Gobierno estudiantil members");
+assert(indexHtml.includes("Comité anuario"), "Comités must include Comité anuario");
+assert(
+  indexHtml.includes("Andrea Carolina Cuellar - Santiago Donosso - Nancy Diaz Quijano - Adolfo Ballesteros - David Osorio."),
+  "Comités must include Comité anuario members",
+);
+assert(indexHtml.includes('href="#bachillerato">Anterior: Bachillerato</a>'), "Comités must link back to Bachillerato");
+assert(indexHtml.includes('href="#secciones">Inicio</a>'), "Comités must include a home link");
+assert(indexHtml.includes("<span>Siguiente: Equipos</span>"), "Comités must preserve Equipos as the next section");
 assert(!indexHtml.toLowerCase().includes(".swf"), "index.html must not embed Flash");
 assert(!appJs.toLowerCase().includes(".swf"), "app.js must not embed Flash");
 assert(!stylesCss.toLowerCase().includes(".swf"), "styles.css must not reference Flash");
@@ -318,6 +346,8 @@ const activePrimariaSections = appJs.match(/\{\s*name:\s*'Primaria',\s*active:\s
 assert(activePrimariaSections.length === 1, "app.js must declare exactly one active Primaria section");
 const activeBachilleratoSections = appJs.match(/\{\s*name:\s*'Bachillerato',\s*active:\s*true,\s*href:\s*'#bachillerato'\s*\}/g) || [];
 assert(activeBachilleratoSections.length === 1, "app.js must declare exactly one active Bachillerato section");
+const activeComitesSections = appJs.match(/\{\s*name:\s*'Comités',\s*active:\s*true,\s*href:\s*'#comites'\s*\}/g) || [];
+assert(activeComitesSections.length === 1, "app.js must declare exactly one active Comités section");
 assert(
   appJs.indexOf("name: 'Prom 2000'") < appJs.indexOf("name: 'Pre-escolar'"),
   "app.js must keep Prom 2000 before Pre-escolar to match the archive section order",
@@ -329,6 +359,10 @@ assert(
 assert(
   appJs.indexOf("name: 'Primaria'") < appJs.indexOf("name: 'Bachillerato'"),
   "app.js must keep Primaria before Bachillerato to match the archive section order",
+);
+assert(
+  appJs.indexOf("name: 'Bachillerato'") < appJs.indexOf("name: 'Comités'"),
+  "app.js must keep Bachillerato before Comités to match the archive section order",
 );
 assert(
   indexHtml.indexOf('href="#prom-2000"') < indexHtml.indexOf('href="#preescolar"'),
@@ -349,6 +383,14 @@ assert(
 assert(
   indexHtml.indexOf('id="primaria"') < indexHtml.indexOf('id="bachillerato"'),
   "page sections must keep Primaria before Bachillerato",
+);
+assert(
+  indexHtml.indexOf('href="#bachillerato"') < indexHtml.indexOf('href="#comites"'),
+  "top navigation must keep Bachillerato before Comités",
+);
+assert(
+  indexHtml.indexOf('id="bachillerato"') < indexHtml.indexOf('id="comites"'),
+  "page sections must keep Bachillerato before Comités",
 );
 assert(
   appJs.includes("item.textContent = active ? name : `${name} (pendiente)`;"),
@@ -472,6 +514,14 @@ for (const asset of requiredBachilleratoAssets) {
   );
 }
 
+for (const asset of requiredComitesAssets) {
+  assert(fs.existsSync(path.join(siteDir, asset)), `Comités asset must exist: ${asset}`);
+  assert(
+    indexHtml.includes(asset) || stylesCss.includes(asset),
+    `Comités asset must be referenced by the static site: ${asset}`,
+  );
+}
+
 const bachilleratoSection = indexHtml.match(/<section id="bachillerato"[\s\S]*?<\/section>\s*<\/main>/)?.[0] || "";
 const bachilleratoCardMatches = [...bachilleratoSection.matchAll(/<article class="bachillerato-card">([\s\S]*?)<\/article>/g)];
 assert(bachilleratoCardMatches.length === expectedBachilleratoCards.length, "Bachillerato must render exactly 12 class cards");
@@ -482,6 +532,17 @@ expectedBachilleratoCards.forEach((expected, index) => {
   assert(card.includes(`src="./${expected.image}"`), `${expected.title} must use ${expected.image}`);
   assert(card.includes(expected.detail), `${expected.title} must preserve source detail: ${expected.detail}`);
   assert(card.includes(`<strong>${expected.teacher}</strong>`), `${expected.title} must include teacher ${expected.teacher}`);
+});
+
+const comitesSection = indexHtml.match(/<section id="comites"[\s\S]*?<\/section>\s*<\/main>/)?.[0] || "";
+const comitesCardMatches = [...comitesSection.matchAll(/<article class="comite-card">([\s\S]*?)<\/article>/g)];
+assert(comitesCardMatches.length === expectedComitesCards.length, "Comités must render exactly two cards");
+
+expectedComitesCards.forEach((expected, index) => {
+  const card = comitesCardMatches[index]?.[1] || "";
+  assert(card.includes(`<h3>${expected.title}</h3>`), `Comités card ${index + 1} must be ${expected.title}`);
+  assert(card.includes(`src="./${expected.image}"`), `${expected.title} must use ${expected.image}`);
+  assert(card.includes(expected.detail), `${expected.title} must preserve source detail`);
 });
 
 assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
@@ -495,5 +556,7 @@ assert(stylesCss.includes(".teacher-grid"), "styles.css must style Profesores te
 assert(stylesCss.includes(".preescolar-layout"), "styles.css must style Pre-escolar class layout");
 assert(stylesCss.includes(".primaria-layout"), "styles.css must style Primaria class layout");
 assert(stylesCss.includes(".bachillerato-layout"), "styles.css must style Bachillerato class layout");
+assert(stylesCss.includes(".comites-layout"), "styles.css must style Comités layout");
+assert(stylesCss.includes(".section-sequence"), "styles.css must style section sequence navigation");
 
 if (!process.exitCode) console.log("Static site verification passed.");
