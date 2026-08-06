@@ -51,6 +51,7 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
   min-height: 64px;
   padding: 0 5vw;
   background: #171d27;
@@ -66,7 +67,10 @@ button:disabled {
 
 .top-nav {
   display: flex;
+  flex-wrap: wrap;
   gap: 1.25rem;
+  justify-content: flex-end;
+  min-width: 0;
 }
 
 .top-nav a {
@@ -532,6 +536,74 @@ h3 {
   font-size: 1rem;
 }
 
+.section--preescolar {
+  width: 100%;
+  max-width: none;
+  padding-right: max(5vw, calc((100vw - 1100px) / 2));
+  padding-left: max(5vw, calc((100vw - 1100px) / 2));
+  background:
+    linear-gradient(rgb(16 20 27 / 90%), rgb(16 20 27 / 82%)),
+    url("./assets/preescolar/fondo.jpg") center / cover;
+  border-top: 1px solid #303a49;
+}
+
+.section--preescolar > * {
+  width: min(100%, 1100px);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.preescolar-layout {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.preescolar-card {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(0, 0.9fr);
+  align-items: center;
+  overflow: hidden;
+  background: #171d27;
+  border: 1px solid #303a49;
+  border-radius: 8px;
+}
+
+.preescolar-card:nth-child(even) {
+  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 1fr);
+}
+
+.preescolar-card:nth-child(even) img {
+  order: 2;
+}
+
+.preescolar-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #10141b;
+}
+
+.preescolar-card--portrait img {
+  max-height: 560px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.preescolar-card__body {
+  padding: 1.5rem;
+}
+
+.preescolar-card__label {
+  margin-bottom: 0.5rem;
+  color: #ffd95a;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.preescolar-card__body p:not(.preescolar-card__label) {
+  color: #d6dee8;
+}
+
 .section--students {
   width: 100%;
   max-width: none;
@@ -892,6 +964,15 @@ h3 {
   .teacher-panel--coordinator img {
     height: auto;
     max-height: none;
+  }
+
+  .preescolar-card,
+  .preescolar-card:nth-child(even) {
+    grid-template-columns: 1fr;
+  }
+
+  .preescolar-card:nth-child(even) img {
+    order: 0;
   }
 
   .prom-class-photos,

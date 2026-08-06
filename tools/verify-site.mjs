@@ -63,6 +63,15 @@ const requiredProfesoresAssets = [
   "assets/profesores/nelson-mejia.jpg",
   "assets/profesores/nelson-yara.jpg",
 ];
+const requiredPreescolarAssets = [
+  "assets/preescolar/fondo.jpg",
+  "assets/preescolar/parvulos.jpg",
+  "assets/preescolar/pre-jardin.jpg",
+  "assets/preescolar/jardin-a.jpg",
+  "assets/preescolar/jardin-b.jpg",
+  "assets/preescolar/transicion-a.jpg",
+  "assets/preescolar/transicion-b.jpg",
+];
 
 function assert(condition, message) {
   if (!condition) {
@@ -81,6 +90,7 @@ assert(indexHtml.includes('id="palabras"'), "Palabras section must exist");
 assert(indexHtml.includes('id="personal-administrativo"'), "Personal administrativo section must exist");
 assert(indexHtml.includes('id="servicios-generales"'), "Servicios generales section must exist");
 assert(indexHtml.includes('id="profesores"'), "Profesores section must exist");
+assert(indexHtml.includes('id="preescolar"'), "Pre-escolar section must exist");
 assert(indexHtml.includes("Momentos 11"), "Prom 2000 section must include Momentos 11");
 assert(indexHtml.includes("Palabras 11"), "Palabras section must include Palabras 11");
 assert(indexHtml.includes("Adolfo Ballesteros F. Prom 2000"), "Palabras 11 text must include its signature");
@@ -92,6 +102,16 @@ assert(indexHtml.includes("Esperanza Méndez"), "Profesores must include Pre-esc
 assert(indexHtml.includes("Sandra Milena Otalora"), "Profesores must include the Primaria coordinator");
 assert(indexHtml.includes("Carlos Gonzáles"), "Profesores must include the Bachillerato coordinator");
 assert(indexHtml.includes("Nelson Yara"), "Profesores must include the final Bachillerato teacher");
+assert(indexHtml.includes("Párvulos"), "Pre-escolar must include Párvulos");
+assert(indexHtml.includes("Miss Alma Moreno González"), "Pre-escolar must include Párvulos teacher");
+assert(indexHtml.includes("Pre-jardín"), "Pre-escolar must include Pre-jardín");
+assert(indexHtml.includes("Miss Yeimmy Carranza A."), "Pre-escolar must include Pre-jardín teacher");
+assert(indexHtml.includes("Jardín A"), "Pre-escolar must include Jardín A");
+assert(indexHtml.includes("Miss Claudia Moreno"), "Pre-escolar must include Jardín A teacher");
+assert(indexHtml.includes("Jardín B"), "Pre-escolar must include Jardín B");
+assert(indexHtml.includes("Miss Liliana S. Monroy G."), "Pre-escolar must include Jardín B teacher");
+assert(indexHtml.includes("Miss Esperanza Méndez López"), "Pre-escolar must include Transición A teacher");
+assert(indexHtml.includes("Miss Sandra Echeverry Díaz"), "Pre-escolar must include Transición B teacher");
 assert(!indexHtml.toLowerCase().includes(".swf"), "index.html must not embed Flash");
 assert(!appJs.toLowerCase().includes(".swf"), "app.js must not embed Flash");
 assert(!stylesCss.toLowerCase().includes(".swf"), "styles.css must not reference Flash");
@@ -136,6 +156,20 @@ const activeServiciosGeneralesSections = appJs.match(/\{\s*name:\s*'Servicios ge
 assert(activeServiciosGeneralesSections.length === 1, "app.js must declare exactly one active Servicios generales section");
 const activeProfesoresSections = appJs.match(/\{\s*name:\s*'Profesores',\s*active:\s*true,\s*href:\s*'#profesores'\s*\}/g) || [];
 assert(activeProfesoresSections.length === 1, "app.js must declare exactly one active Profesores section");
+const activePreescolarSections = appJs.match(/\{\s*name:\s*'Pre-escolar',\s*active:\s*true,\s*href:\s*'#preescolar'\s*\}/g) || [];
+assert(activePreescolarSections.length === 1, "app.js must declare exactly one active Pre-escolar section");
+assert(
+  appJs.indexOf("name: 'Prom 2000'") < appJs.indexOf("name: 'Pre-escolar'"),
+  "app.js must keep Prom 2000 before Pre-escolar to match the archive section order",
+);
+assert(
+  indexHtml.indexOf('href="#prom-2000"') < indexHtml.indexOf('href="#preescolar"'),
+  "top navigation must keep Prom 2000 before Pre-escolar",
+);
+assert(
+  indexHtml.indexOf('id="prom-2000"') < indexHtml.indexOf('id="preescolar"'),
+  "page sections must keep Prom 2000 before Pre-escolar",
+);
 assert(
   appJs.includes("item.textContent = active ? name : `${name} (pendiente)`;"),
   "app.js must mark pending navigation sections in its static source",
@@ -234,6 +268,14 @@ for (const asset of requiredProfesoresAssets) {
   );
 }
 
+for (const asset of requiredPreescolarAssets) {
+  assert(fs.existsSync(path.join(siteDir, asset)), `Pre-escolar asset must exist: ${asset}`);
+  assert(
+    indexHtml.includes(asset) || stylesCss.includes(asset),
+    `Pre-escolar asset must be referenced by the static site: ${asset}`,
+  );
+}
+
 assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
 assert(appJs.includes("renderLegacyArticle(student)"), "app.js must render article alumni layouts");
 assert(stylesCss.includes(".legacy-layout"), "styles.css must style composite alumni layouts");
@@ -242,5 +284,6 @@ assert(stylesCss.includes(".palabras-composite"), "styles.css must style the Gon
 assert(stylesCss.includes(".staff-grid"), "styles.css must style Personal administrativo staff grid");
 assert(stylesCss.includes(".services-layout"), "styles.css must style Servicios generales layout");
 assert(stylesCss.includes(".teacher-grid"), "styles.css must style Profesores teacher grid");
+assert(stylesCss.includes(".preescolar-layout"), "styles.css must style Pre-escolar class layout");
 
 if (!process.exitCode) console.log("Static site verification passed.");
