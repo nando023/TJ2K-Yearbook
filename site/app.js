@@ -50,7 +50,7 @@ function createStudentButton(student) {
   button.className = 'student-card';
   button.type = 'button';
   button.textContent = student.name;
-  button.addEventListener('click', () => openStudentModal(student, button));
+  button.addEventListener('click', () => openStudent(student));
   return button;
 }
 
@@ -78,56 +78,60 @@ function renderStudents() {
   groupContainer.append(fragment);
 }
 
-function openStudentModal(student, trigger) {
-  previousFocus = trigger;
-  modalContent.replaceChildren();
-
-  const title = document.createElement('h2');
-  title.id = 'modal-title';
-  title.textContent = student.name;
-
-  const group = document.createElement('p');
-  group.className = 'modal__group';
-  group.textContent = `Curso ${student.group}`;
-
-  modalContent.append(title, group);
-
-  if (student.hasProfileImage && student.image) {
-    const image = document.createElement('img');
-    image.className = 'modal__image';
-    image.src = `./assets/students/${student.id}${getImageExtension(student.image)}`;
-    image.alt = `Retrato de ${student.name}`;
-    modalContent.append(image);
-  } else {
-    const message = document.createElement('p');
-    message.className = 'modal__notice';
-    message.textContent = 'No hay una imagen disponible en el archivo original.';
-    modalContent.append(message);
-  }
-
+function openStudent(student) {
+  previousFocus = document.activeElement;
+  modalContent.innerHTML = renderStudentModal(student);
   modal.hidden = false;
   document.body.classList.add('modal-open');
   closeButton.focus();
+}
+
+function closeStudent() {
+  if (modal.hidden) return;
+
+  modal.hidden = true;
+  modalContent.replaceChildren();
+  document.body.classList.remove('modal-open');
+  previousFocus?.focus();
+  previousFocus = null;
+}
+
+function renderStudentModal(student) {
+  const name = escapeHtml(student.name);
+  const group = escapeHtml(student.group);
+
+  if (!student.hasProfileImage || !student.image) {
+    return `
+      <h2 id="modal-title">${name}</h2>
+      <p class="modal__group">Curso ${group}</p>
+      <p class="modal__notice">No hay una imagen disponible en el archivo original.</p>
+    `;
+  }
+
+  const imagePath = `./assets/students/${student.id}${getImageExtension(student.image)}`;
+  return `
+    <h2 id="modal-title">${name}</h2>
+    <p class="modal__group">Curso ${group}</p>
+    <img class="modal__image" src="${imagePath}" alt="Retrato de ${name}">
+  `;
 }
 
 function getImageExtension(imagePath) {
   return imagePath.slice(imagePath.lastIndexOf('.'));
 }
 
-function closeModal() {
-  if (modal.hidden) return;
-
-  modal.hidden = true;
-  document.body.classList.remove('modal-open');
-  previousFocus?.focus();
+function escapeHtml(value) {
+  const element = document.createElement('div');
+  element.textContent = value;
+  return element.innerHTML;
 }
 
 document.querySelectorAll('[data-close-modal]').forEach((element) => {
-  element.addEventListener('click', closeModal);
+  element.addEventListener('click', closeStudent);
 });
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') closeModal();
+  if (event.key === 'Escape') closeStudent();
 });
 
 renderSections();
