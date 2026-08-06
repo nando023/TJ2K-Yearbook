@@ -1,0 +1,14 @@
+.DS_Store
+Thumbs.db
+
+# Local tooling output
+node_modules/
+dist/
+build/
+.vite/
+.parcel-cache/
+
+# Azure/local deployment scratch files
+.azure/
+.env
+.env.*
