@@ -11,7 +11,7 @@ const sections = [
   { name: 'Primaria', active: true, href: '#primaria' },
   { name: 'Bachillerato', active: true, href: '#bachillerato' },
   { name: 'Comités', active: true, href: '#comites' },
-  { name: 'Equipos', active: false },
+  { name: 'Equipos', active: true, href: '#equipos' },
   { name: 'Parejas', active: false },
   { name: 'Hermanos', active: false },
   { name: 'Collage', active: false },
