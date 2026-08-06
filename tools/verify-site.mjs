@@ -9,6 +9,13 @@ const appJs = fs.readFileSync(path.join(siteDir, "app.js"), "utf8");
 const stylesCss = fs.readFileSync(path.join(siteDir, "styles.css"), "utf8");
 const studentsModule = fs.readFileSync(path.join(siteDir, "students.js"), "utf8");
 const { students } = await import(`data:text/javascript;base64,${Buffer.from(studentsModule).toString("base64")}`);
+const requiredPromAssets = [
+  "assets/prom-2000/fondo-prom.jpg",
+  "assets/prom-2000/once-a.jpg",
+  "assets/prom-2000/once-b.jpg",
+  "assets/prom-2000/momentos-collage.jpg",
+  "assets/prom-2000/momentos-11.gif",
+];
 
 function assert(condition, message) {
   if (!condition) {
@@ -23,11 +30,17 @@ function decodeArchivePath(archivePath) {
 
 assert(indexHtml.includes('lang="es"'), "index.html must declare Spanish language");
 assert(indexHtml.includes('id="prom-2000"'), "Prom 2000 section must exist");
+assert(indexHtml.includes("Momentos 11"), "Prom 2000 section must include Momentos 11");
 assert(!indexHtml.toLowerCase().includes(".swf"), "index.html must not embed Flash");
 assert(!appJs.toLowerCase().includes(".swf"), "app.js must not embed Flash");
+assert(!stylesCss.toLowerCase().includes(".swf"), "styles.css must not reference Flash");
 assert(
   /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*?scroll-behavior:\s*auto;/i.test(stylesCss),
   "styles.css must restore automatic scrolling for reduced-motion preferences",
+);
+assert(
+  stylesCss.includes("assets/prom-2000/fondo-prom.jpg"),
+  "Prom 2000 background must be used by the static site",
 );
 assert(students.length >= 35, "student data should include the graduating class");
 assert(students.some((student) => student.group === "11A"), "student data should include 11A");
@@ -74,6 +87,14 @@ for (const student of students.filter((entry) => entry.hasProfileImage)) {
 
   assert(fs.existsSync(archiveImage), `${student.name} archive image must exist: ${student.image}`);
   assert(fs.existsSync(packagedImage), `${student.name} packaged image must exist: ${path.relative(root, packagedImage)}`);
+}
+
+for (const asset of requiredPromAssets) {
+  assert(fs.existsSync(path.join(siteDir, asset)), `Prom 2000 asset must exist: ${asset}`);
+  assert(
+    indexHtml.includes(asset) || stylesCss.includes(asset),
+    `Prom 2000 asset must be referenced by the static site: ${asset}`,
+  );
 }
 
 if (!process.exitCode) console.log("Static site verification passed.");

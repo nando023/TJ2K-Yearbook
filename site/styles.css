@@ -172,10 +172,6 @@ h3 {
   color: #c7d2df;
 }
 
-.section--students {
-  border-top: 1px solid #303a49;
-}
-
 .section-grid,
 .student-grid {
   display: grid;
@@ -203,6 +199,115 @@ h3 {
 .student-groups {
   display: grid;
   gap: 2.5rem;
+}
+
+.section--students {
+  width: 100%;
+  max-width: none;
+  padding-top: 0;
+  border-top: 1px solid #303a49;
+}
+
+.section--students > * {
+  width: min(100%, 1100px);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.prom-feature {
+  position: relative;
+  display: grid;
+  min-height: 520px;
+  grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.8fr);
+  gap: 2rem;
+  align-items: end;
+  overflow: hidden;
+  width: 100%;
+  max-width: none;
+  padding: 5rem max(5vw, calc((100vw - 1100px) / 2));
+  background:
+    linear-gradient(90deg, rgb(16 20 27 / 92%), rgb(16 20 27 / 58) 54%, rgb(16 20 27 / 84)),
+    url("./assets/prom-2000/fondo-prom.jpg") center / cover;
+  border-bottom: 1px solid #303a49;
+}
+
+.prom-feature__copy {
+  max-width: 42rem;
+}
+
+.prom-feature__label {
+  margin-bottom: 0.75rem;
+  color: #ffd95a;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.prom-feature h2 {
+  margin-bottom: 1rem;
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  line-height: 0.95;
+}
+
+.prom-feature p {
+  color: #edf4ff;
+  font-size: 1.125rem;
+}
+
+.prom-feature__photo {
+  align-self: center;
+  border: 1px solid rgb(255 255 255 / 24%);
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 38%);
+  transform: rotate(1.5deg);
+}
+
+.prom-feature__photo img,
+.prom-class-photos img,
+.moments-grid img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.prom-class-photos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 4rem 0 1rem;
+}
+
+.prom-class-photos figure,
+.moments-grid figure {
+  margin: 0;
+  overflow: hidden;
+  background: #171d27;
+  border: 1px solid #303a49;
+  border-radius: 8px;
+}
+
+.prom-class-photos figcaption,
+.moments-grid figcaption {
+  padding: 0.75rem 1rem;
+  color: #f4f7fb;
+  font-weight: 700;
+}
+
+.prom-moments {
+  padding: 3rem 0 4rem;
+}
+
+.moments-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.72fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.moments-grid__large {
+  grid-row: span 2;
+}
+
+.section__heading--students {
+  padding-top: 1rem;
 }
 
 .student-card {
@@ -296,6 +401,29 @@ h3 {
   .section-grid,
   .student-grid {
     grid-template-columns: 1fr;
+  }
+
+  .prom-feature {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    padding: 3rem 1rem;
+  }
+
+  .prom-feature__photo {
+    transform: none;
+  }
+
+  .prom-class-photos,
+  .moments-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .prom-class-photos,
+  .prom-moments,
+  .section__heading--students,
+  .student-groups {
+    padding-right: 1rem;
+    padding-left: 1rem;
   }
 
   .modal {
