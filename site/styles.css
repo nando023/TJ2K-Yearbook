@@ -289,6 +289,76 @@ h3 {
   text-align: right;
 }
 
+.section--personal-adm {
+  width: 100%;
+  max-width: none;
+  padding-right: max(5vw, calc((100vw - 1100px) / 2));
+  padding-left: max(5vw, calc((100vw - 1100px) / 2));
+  background:
+    linear-gradient(rgb(16 20 27 / 88%), rgb(16 20 27 / 78)),
+    url("./assets/personal-administrativo/fondo.gif") center / 240px repeat;
+  border-top: 1px solid #303a49;
+}
+
+.section--personal-adm > * {
+  width: min(100%, 1100px);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.staff-feature-grid,
+.staff-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.staff-feature-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.staff-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.staff-card {
+  display: grid;
+  align-content: start;
+  min-height: 100%;
+  overflow: hidden;
+  background: #171d27;
+  border: 1px solid #303a49;
+  border-radius: 8px;
+}
+
+.staff-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 4.5;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.staff-card h3 {
+  margin: 1rem 1rem 0.25rem;
+  color: #ffffff;
+}
+
+.staff-card p {
+  margin: 0 1rem 1rem;
+  color: #c7d2df;
+}
+
+.staff-card--lead {
+  grid-template-columns: minmax(140px, 0.72fr) minmax(0, 1fr);
+  align-items: center;
+}
+
+.staff-card--lead img {
+  height: 100%;
+  min-height: 300px;
+}
+
 .section--students {
   width: 100%;
   max-width: none;
@@ -618,6 +688,16 @@ h3 {
 
   .prom-feature__photo {
     transform: none;
+  }
+
+  .staff-feature-grid,
+  .staff-card--lead {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-card--lead img {
+    height: auto;
+    min-height: 0;
   }
 
   .prom-class-photos,

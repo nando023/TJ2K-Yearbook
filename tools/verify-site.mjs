@@ -21,6 +21,19 @@ const requiredPalabrasAssets = [
   "assets/palabras/gonzalo-serna-01.jpg",
   "assets/palabras/gonzalo-serna-02.jpg",
 ];
+const requiredPersonalAdministrativoAssets = [
+  "assets/personal-administrativo/fondo.gif",
+  "assets/personal-administrativo/luis-jorge-santos.jpg",
+  "assets/personal-administrativo/martha-arenas.jpg",
+  "assets/personal-administrativo/claudia-angulo.jpg",
+  "assets/personal-administrativo/jairo-moreno-sierra.jpg",
+  "assets/personal-administrativo/gloria-archila-soto.jpg",
+  "assets/personal-administrativo/alvaro-german-quecano.jpg",
+  "assets/personal-administrativo/angela-granados.jpg",
+  "assets/personal-administrativo/juliana-vargas.jpg",
+  "assets/personal-administrativo/diana-poveda.jpg",
+  "assets/personal-administrativo/blanca-miriam-gomez.jpg",
+];
 
 function assert(condition, message) {
   if (!condition) {
@@ -36,9 +49,12 @@ function decodeArchivePath(archivePath) {
 assert(indexHtml.includes('lang="es"'), "index.html must declare Spanish language");
 assert(indexHtml.includes('id="prom-2000"'), "Prom 2000 section must exist");
 assert(indexHtml.includes('id="palabras"'), "Palabras section must exist");
+assert(indexHtml.includes('id="personal-administrativo"'), "Personal administrativo section must exist");
 assert(indexHtml.includes("Momentos 11"), "Prom 2000 section must include Momentos 11");
 assert(indexHtml.includes("Palabras 11"), "Palabras section must include Palabras 11");
 assert(indexHtml.includes("Adolfo Ballesteros F. Prom 2000"), "Palabras 11 text must include its signature");
+assert(indexHtml.includes("Luis Jorge Santos Morales"), "Personal administrativo must include the Director General");
+assert(indexHtml.includes("Blanca Miriam Gomez"), "Personal administrativo must include Secretaria académica");
 assert(!indexHtml.toLowerCase().includes(".swf"), "index.html must not embed Flash");
 assert(!appJs.toLowerCase().includes(".swf"), "app.js must not embed Flash");
 assert(!stylesCss.toLowerCase().includes(".swf"), "styles.css must not reference Flash");
@@ -77,6 +93,8 @@ const activeProm2000Sections = appJs.match(/\{\s*name:\s*'Prom 2000',\s*active:\
 assert(activeProm2000Sections.length === 1, "app.js must declare exactly one active Prom 2000 section");
 const activePalabrasSections = appJs.match(/\{\s*name:\s*'Palabras de despedida',\s*active:\s*true,\s*href:\s*'#palabras'\s*\}/g) || [];
 assert(activePalabrasSections.length === 1, "app.js must declare exactly one active Palabras section");
+const activePersonalAdministrativoSections = appJs.match(/\{\s*name:\s*'Personal administrativo',\s*active:\s*true,\s*href:\s*'#personal-administrativo'\s*\}/g) || [];
+assert(activePersonalAdministrativoSections.length === 1, "app.js must declare exactly one active Personal administrativo section");
 assert(
   appJs.includes("item.textContent = active ? name : `${name} (pendiente)`;"),
   "app.js must mark pending navigation sections in its static source",
@@ -154,10 +172,19 @@ for (const asset of requiredPalabrasAssets) {
   assert(indexHtml.includes(asset), `Palabras asset must be referenced by index.html: ${asset}`);
 }
 
+for (const asset of requiredPersonalAdministrativoAssets) {
+  assert(fs.existsSync(path.join(siteDir, asset)), `Personal administrativo asset must exist: ${asset}`);
+  assert(
+    indexHtml.includes(asset) || stylesCss.includes(asset),
+    `Personal administrativo asset must be referenced by the static site: ${asset}`,
+  );
+}
+
 assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
 assert(appJs.includes("renderLegacyArticle(student)"), "app.js must render article alumni layouts");
 assert(stylesCss.includes(".legacy-layout"), "styles.css must style composite alumni layouts");
 assert(stylesCss.includes(".legacy-article"), "styles.css must style article alumni layouts");
 assert(stylesCss.includes(".palabras-composite"), "styles.css must style the Gonzalo Serna composite");
+assert(stylesCss.includes(".staff-grid"), "styles.css must style Personal administrativo staff grid");
 
 if (!process.exitCode) console.log("Static site verification passed.");

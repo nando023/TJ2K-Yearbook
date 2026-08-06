@@ -3,7 +3,7 @@ import { students } from './students.js';
 const sections = [
   { name: 'Página principal', active: false },
   { name: 'Palabras de despedida', active: true, href: '#palabras' },
-  { name: 'Personal administrativo', active: false },
+  { name: 'Personal administrativo', active: true, href: '#personal-administrativo' },
   { name: 'Servicios generales', active: false },
   { name: 'Profesores', active: false },
   { name: 'Prom 2000', active: true, href: '#prom-2000' },
