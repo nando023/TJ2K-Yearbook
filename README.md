@@ -36,3 +36,15 @@ Archive/ANUARIO/index.htm
 2. Should all archive sections be migrated in the first pass, or should the first milestone focus on the main navigation and graduating class pages?
 3. Should Flash-only animations be recreated, replaced with static images, or omitted when no direct HTML equivalent exists?
 4. Is Spanish the only required site language?
+
+## Local Preview
+
+```bash
+python3 -m http.server 4173 --directory site
+```
+
+Open `http://localhost:4173`.
+
+## Azure Static Website
+
+Use `site/` as the static website deployment root.
