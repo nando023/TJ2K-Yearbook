@@ -8,7 +8,7 @@ const sections = [
   { name: 'Profesores', active: true, href: '#profesores' },
   { name: 'Prom 2000', active: true, href: '#prom-2000' },
   { name: 'Pre-escolar', active: true, href: '#preescolar' },
-  { name: 'Primaria', active: false },
+  { name: 'Primaria', active: true, href: '#primaria' },
   { name: 'Bachillerato', active: false },
   { name: 'Comités', active: false },
   { name: 'Equipos', active: false },

@@ -604,6 +604,71 @@ h3 {
   color: #d6dee8;
 }
 
+.section--primaria {
+  width: 100%;
+  max-width: none;
+  padding-right: max(5vw, calc((100vw - 1100px) / 2));
+  padding-left: max(5vw, calc((100vw - 1100px) / 2));
+  background:
+    linear-gradient(rgb(16 20 27 / 91%), rgb(16 20 27 / 84%)),
+    url("./assets/primaria/fondo.jpg") center / cover;
+  border-top: 1px solid #303a49;
+}
+
+.section--primaria > * {
+  width: min(100%, 1100px);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.primaria-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.primaria-card {
+  display: grid;
+  align-content: start;
+  min-height: 100%;
+  overflow: hidden;
+  background: #171d27;
+  border: 1px solid #303a49;
+  border-radius: 8px;
+}
+
+.primaria-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: center;
+  background: #10141b;
+}
+
+.primaria-card--portrait img {
+  object-fit: contain;
+}
+
+.primaria-card__body {
+  padding: 1.25rem;
+}
+
+.primaria-card__label {
+  margin-bottom: 0.5rem;
+  color: #ffd95a;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.primaria-card__body h3 {
+  margin-bottom: 0.75rem;
+}
+
+.primaria-card__body p:not(.primaria-card__label) {
+  color: #d6dee8;
+}
+
 .section--students {
   width: 100%;
   max-width: none;

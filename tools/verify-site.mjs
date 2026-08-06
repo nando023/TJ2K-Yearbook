@@ -72,6 +72,19 @@ const requiredPreescolarAssets = [
   "assets/preescolar/transicion-a.jpg",
   "assets/preescolar/transicion-b.jpg",
 ];
+const requiredPrimariaAssets = [
+  "assets/primaria/fondo.jpg",
+  "assets/primaria/primero-a.jpg",
+  "assets/primaria/primero-b.jpg",
+  "assets/primaria/segundo-a.jpg",
+  "assets/primaria/segundo-b.jpg",
+  "assets/primaria/tercero-a.jpg",
+  "assets/primaria/tercero-b.jpg",
+  "assets/primaria/cuarto-a.jpg",
+  "assets/primaria/cuarto-b.jpg",
+  "assets/primaria/quinto-a.jpg",
+  "assets/primaria/quinto-b.jpg",
+];
 
 function assert(condition, message) {
   if (!condition) {
@@ -91,6 +104,7 @@ assert(indexHtml.includes('id="personal-administrativo"'), "Personal administrat
 assert(indexHtml.includes('id="servicios-generales"'), "Servicios generales section must exist");
 assert(indexHtml.includes('id="profesores"'), "Profesores section must exist");
 assert(indexHtml.includes('id="preescolar"'), "Pre-escolar section must exist");
+assert(indexHtml.includes('id="primaria"'), "Primaria section must exist");
 assert(indexHtml.includes("Momentos 11"), "Prom 2000 section must include Momentos 11");
 assert(indexHtml.includes("Palabras 11"), "Palabras section must include Palabras 11");
 assert(indexHtml.includes("Adolfo Ballesteros F. Prom 2000"), "Palabras 11 text must include its signature");
@@ -112,6 +126,31 @@ assert(indexHtml.includes("Jardín B"), "Pre-escolar must include Jardín B");
 assert(indexHtml.includes("Miss Liliana S. Monroy G."), "Pre-escolar must include Jardín B teacher");
 assert(indexHtml.includes("Miss Esperanza Méndez López"), "Pre-escolar must include Transición A teacher");
 assert(indexHtml.includes("Miss Sandra Echeverry Díaz"), "Pre-escolar must include Transición B teacher");
+assert(indexHtml.includes("Primero A"), "Primaria must include Primero A");
+assert(indexHtml.includes("Miss Ligia Forero Saenz"), "Primaria must include Primero A teacher");
+assert(indexHtml.includes("Primero B"), "Primaria must include Primero B");
+assert(indexHtml.includes("Miss Diana Rodriguez"), "Primaria must include Primero B teacher");
+assert(
+  (indexHtml.match(/Mariana Jiménez/g) || []).length >= 2,
+  "Primaria Primero B must preserve both Mariana Jiménez source entries",
+);
+assert(indexHtml.includes("Segundo A"), "Primaria must include Segundo A");
+assert(indexHtml.includes("Miss Martha Helena Rueda Neira"), "Primaria must include Segundo A teacher");
+assert(indexHtml.includes("Segundo B"), "Primaria must include Segundo B");
+assert(indexHtml.includes("Miss Sonia Pedraza"), "Primaria must include Segundo B teacher");
+assert(indexHtml.includes("Tercero A"), "Primaria must include Tercero A");
+assert(indexHtml.includes("Miss Gladys Arboleda Carrillo"), "Primaria must include Tercero A teacher");
+assert(indexHtml.includes("Tercero B"), "Primaria must include Tercero B");
+assert(indexHtml.includes("Profesor Henry Bernal"), "Primaria must include Tercero B teacher");
+assert(indexHtml.includes("Cuarto A"), "Primaria must include Cuarto A");
+assert(indexHtml.includes("Miss Sandra Borrero"), "Primaria must include Cuarto A teacher");
+assert(indexHtml.includes("Cuarto B"), "Primaria must include Cuarto B");
+assert(indexHtml.includes("Miss Andrea Serna Arenas"), "Primaria must include Cuarto B teacher");
+assert(indexHtml.includes("Quinto A"), "Primaria must include Quinto A");
+assert(indexHtml.includes("Profesor Jaime Gonzáles"), "Primaria must include Quinto A teacher");
+assert(indexHtml.includes("(atrás) David Acuña Hurtado"), "Primaria Quinto A must preserve the original positional note");
+assert(indexHtml.includes("Quinto B"), "Primaria must include Quinto B");
+assert(indexHtml.includes("Profesor Julián Peña"), "Primaria must include Quinto B teacher");
 assert(!indexHtml.toLowerCase().includes(".swf"), "index.html must not embed Flash");
 assert(!appJs.toLowerCase().includes(".swf"), "app.js must not embed Flash");
 assert(!stylesCss.toLowerCase().includes(".swf"), "styles.css must not reference Flash");
@@ -158,9 +197,15 @@ const activeProfesoresSections = appJs.match(/\{\s*name:\s*'Profesores',\s*activ
 assert(activeProfesoresSections.length === 1, "app.js must declare exactly one active Profesores section");
 const activePreescolarSections = appJs.match(/\{\s*name:\s*'Pre-escolar',\s*active:\s*true,\s*href:\s*'#preescolar'\s*\}/g) || [];
 assert(activePreescolarSections.length === 1, "app.js must declare exactly one active Pre-escolar section");
+const activePrimariaSections = appJs.match(/\{\s*name:\s*'Primaria',\s*active:\s*true,\s*href:\s*'#primaria'\s*\}/g) || [];
+assert(activePrimariaSections.length === 1, "app.js must declare exactly one active Primaria section");
 assert(
   appJs.indexOf("name: 'Prom 2000'") < appJs.indexOf("name: 'Pre-escolar'"),
   "app.js must keep Prom 2000 before Pre-escolar to match the archive section order",
+);
+assert(
+  appJs.indexOf("name: 'Pre-escolar'") < appJs.indexOf("name: 'Primaria'"),
+  "app.js must keep Pre-escolar before Primaria to match the archive section order",
 );
 assert(
   indexHtml.indexOf('href="#prom-2000"') < indexHtml.indexOf('href="#preescolar"'),
@@ -169,6 +214,10 @@ assert(
 assert(
   indexHtml.indexOf('id="prom-2000"') < indexHtml.indexOf('id="preescolar"'),
   "page sections must keep Prom 2000 before Pre-escolar",
+);
+assert(
+  indexHtml.indexOf('id="preescolar"') < indexHtml.indexOf('id="primaria"'),
+  "page sections must keep Pre-escolar before Primaria",
 );
 assert(
   appJs.includes("item.textContent = active ? name : `${name} (pendiente)`;"),
@@ -276,6 +325,14 @@ for (const asset of requiredPreescolarAssets) {
   );
 }
 
+for (const asset of requiredPrimariaAssets) {
+  assert(fs.existsSync(path.join(siteDir, asset)), `Primaria asset must exist: ${asset}`);
+  assert(
+    indexHtml.includes(asset) || stylesCss.includes(asset),
+    `Primaria asset must be referenced by the static site: ${asset}`,
+  );
+}
+
 assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
 assert(appJs.includes("renderLegacyArticle(student)"), "app.js must render article alumni layouts");
 assert(stylesCss.includes(".legacy-layout"), "styles.css must style composite alumni layouts");
@@ -285,5 +342,6 @@ assert(stylesCss.includes(".staff-grid"), "styles.css must style Personal admini
 assert(stylesCss.includes(".services-layout"), "styles.css must style Servicios generales layout");
 assert(stylesCss.includes(".teacher-grid"), "styles.css must style Profesores teacher grid");
 assert(stylesCss.includes(".preescolar-layout"), "styles.css must style Pre-escolar class layout");
+assert(stylesCss.includes(".primaria-layout"), "styles.css must style Primaria class layout");
 
 if (!process.exitCode) console.log("Static site verification passed.");
