@@ -4,7 +4,7 @@ const sections = [
   { name: 'Pagina principal', active: false },
   { name: 'Palabras de despedida', active: false },
   { name: 'Personal administrativo', active: false },
-  { name: 'Servivicos generales', active: false },
+  { name: 'Servicios generales', active: false },
   { name: 'Profesores', active: false },
   { name: 'Prom 2000', active: true },
   { name: 'Pre-escolar', active: false },
@@ -95,7 +95,7 @@ function openStudentModal(student, trigger) {
   if (student.hasProfileImage && student.image) {
     const image = document.createElement('img');
     image.className = 'modal__image';
-    image.src = `../${student.image}`;
+    image.src = `./assets/students/${student.id}${getImageExtension(student.image)}`;
     image.alt = `Retrato de ${student.name}`;
     modalContent.append(image);
   } else {
@@ -108,6 +108,10 @@ function openStudentModal(student, trigger) {
   modal.hidden = false;
   document.body.classList.add('modal-open');
   closeButton.focus();
+}
+
+function getImageExtension(imagePath) {
+  return imagePath.slice(imagePath.lastIndexOf('.'));
 }
 
 function closeModal() {
