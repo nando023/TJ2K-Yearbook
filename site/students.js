@@ -108,8 +108,8 @@ export const students = [
     "name": "Guzmán Barbosa Gustavo Ramiro",
     "group": "11B",
     "legacyPage": "Archive/ANUARIO/paginas11/coste%F1o.htm",
-    "image": "",
-    "hasProfileImage": false
+    "image": "Archive/ANUARIO/imagenes/alumnos/coste%F1o.jpg",
+    "hasProfileImage": true
   },
   {
     "id": "galindo-olarte-andres-david",
