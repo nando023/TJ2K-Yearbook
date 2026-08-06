@@ -7,6 +7,7 @@ dist/
 build/
 .vite/
 .parcel-cache/
+.worktrees/
 
 # Azure/local deployment scratch files
 .azure/
