@@ -16,6 +16,11 @@ const requiredPromAssets = [
   "assets/prom-2000/momentos-collage.jpg",
   "assets/prom-2000/momentos-11.gif",
 ];
+const requiredPalabrasAssets = [
+  "assets/palabras/rectora.jpg",
+  "assets/palabras/gonzalo-serna-01.jpg",
+  "assets/palabras/gonzalo-serna-02.jpg",
+];
 
 function assert(condition, message) {
   if (!condition) {
@@ -30,7 +35,10 @@ function decodeArchivePath(archivePath) {
 
 assert(indexHtml.includes('lang="es"'), "index.html must declare Spanish language");
 assert(indexHtml.includes('id="prom-2000"'), "Prom 2000 section must exist");
+assert(indexHtml.includes('id="palabras"'), "Palabras section must exist");
 assert(indexHtml.includes("Momentos 11"), "Prom 2000 section must include Momentos 11");
+assert(indexHtml.includes("Palabras 11"), "Palabras section must include Palabras 11");
+assert(indexHtml.includes("Adolfo Ballesteros F. Prom 2000"), "Palabras 11 text must include its signature");
 assert(!indexHtml.toLowerCase().includes(".swf"), "index.html must not embed Flash");
 assert(!appJs.toLowerCase().includes(".swf"), "app.js must not embed Flash");
 assert(!stylesCss.toLowerCase().includes(".swf"), "styles.css must not reference Flash");
@@ -65,8 +73,10 @@ assert(
   "Nasbly must render the positioned legacy text block",
 );
 
-const activeProm2000Sections = appJs.match(/\{\s*name:\s*'Prom 2000',\s*active:\s*true\s*\}/g) || [];
+const activeProm2000Sections = appJs.match(/\{\s*name:\s*'Prom 2000',\s*active:\s*true,\s*href:\s*'#prom-2000'\s*\}/g) || [];
 assert(activeProm2000Sections.length === 1, "app.js must declare exactly one active Prom 2000 section");
+const activePalabrasSections = appJs.match(/\{\s*name:\s*'Palabras de despedida',\s*active:\s*true,\s*href:\s*'#palabras'\s*\}/g) || [];
+assert(activePalabrasSections.length === 1, "app.js must declare exactly one active Palabras section");
 assert(
   appJs.includes("item.textContent = active ? name : `${name} (pendiente)`;"),
   "app.js must mark pending navigation sections in its static source",
@@ -139,9 +149,15 @@ for (const asset of requiredPromAssets) {
   );
 }
 
+for (const asset of requiredPalabrasAssets) {
+  assert(fs.existsSync(path.join(siteDir, asset)), `Palabras asset must exist: ${asset}`);
+  assert(indexHtml.includes(asset), `Palabras asset must be referenced by index.html: ${asset}`);
+}
+
 assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
 assert(appJs.includes("renderLegacyArticle(student)"), "app.js must render article alumni layouts");
 assert(stylesCss.includes(".legacy-layout"), "styles.css must style composite alumni layouts");
 assert(stylesCss.includes(".legacy-article"), "styles.css must style article alumni layouts");
+assert(stylesCss.includes(".palabras-composite"), "styles.css must style the Gonzalo Serna composite");
 
 if (!process.exitCode) console.log("Static site verification passed.");

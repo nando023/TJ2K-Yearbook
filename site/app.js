@@ -2,11 +2,11 @@ import { students } from './students.js';
 
 const sections = [
   { name: 'Página principal', active: false },
-  { name: 'Palabras de despedida', active: false },
+  { name: 'Palabras de despedida', active: true, href: '#palabras' },
   { name: 'Personal administrativo', active: false },
   { name: 'Servicios generales', active: false },
   { name: 'Profesores', active: false },
-  { name: 'Prom 2000', active: true },
+  { name: 'Prom 2000', active: true, href: '#prom-2000' },
   { name: 'Pre-escolar', active: false },
   { name: 'Primaria', active: false },
   { name: 'Bachillerato', active: false },
@@ -27,13 +27,13 @@ let previousFocus = null;
 function renderSections() {
   const fragment = document.createDocumentFragment();
 
-  sections.forEach(({ name, active }) => {
+  sections.forEach(({ name, active, href }) => {
     const item = document.createElement(active ? 'a' : 'button');
     item.className = active ? 'section-link section-link--active' : 'section-link section-link--pending';
     item.textContent = active ? name : `${name} (pendiente)`;
 
     if (active) {
-      item.href = '#prom-2000';
+      item.href = href;
     } else {
       item.type = 'button';
       item.disabled = true;
