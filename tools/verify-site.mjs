@@ -40,6 +40,29 @@ const requiredServiciosGeneralesAssets = [
   "assets/servicios-generales/luis-alberto-correa.jpg",
   "assets/servicios-generales/terapia-ocupacional.jpg",
 ];
+const requiredProfesoresAssets = [
+  "assets/profesores/fondo.gif",
+  "assets/profesores/preescolar.jpg",
+  "assets/profesores/sandra-milena-otalora.jpg",
+  "assets/profesores/diana-ramirez.jpg",
+  "assets/profesores/dolly-romero.jpg",
+  "assets/profesores/jaime-gonzales.jpg",
+  "assets/profesores/ligia-forero.jpg",
+  "assets/profesores/nelson-correa.jpg",
+  "assets/profesores/rubi-bastidas.jpg",
+  "assets/profesores/carlos-gonzales.jpg",
+  "assets/profesores/adolfo-triana.jpg",
+  "assets/profesores/ana-liliana-espitia.jpg",
+  "assets/profesores/ana-rosa-melo.jpg",
+  "assets/profesores/diego-jimenez.jpg",
+  "assets/profesores/hector-gonzalo-tuesta.jpg",
+  "assets/profesores/jean-fontaine.jpg",
+  "assets/profesores/juan-carlos-urrea.jpg",
+  "assets/profesores/luis-gonzalo-serna.jpg",
+  "assets/profesores/manuel-gonzales.jpg",
+  "assets/profesores/nelson-mejia.jpg",
+  "assets/profesores/nelson-yara.jpg",
+];
 
 function assert(condition, message) {
   if (!condition) {
@@ -57,6 +80,7 @@ assert(indexHtml.includes('id="prom-2000"'), "Prom 2000 section must exist");
 assert(indexHtml.includes('id="palabras"'), "Palabras section must exist");
 assert(indexHtml.includes('id="personal-administrativo"'), "Personal administrativo section must exist");
 assert(indexHtml.includes('id="servicios-generales"'), "Servicios generales section must exist");
+assert(indexHtml.includes('id="profesores"'), "Profesores section must exist");
 assert(indexHtml.includes("Momentos 11"), "Prom 2000 section must include Momentos 11");
 assert(indexHtml.includes("Palabras 11"), "Palabras section must include Palabras 11");
 assert(indexHtml.includes("Adolfo Ballesteros F. Prom 2000"), "Palabras 11 text must include its signature");
@@ -64,6 +88,10 @@ assert(indexHtml.includes("Luis Jorge Santos Morales"), "Personal administrativo
 assert(indexHtml.includes("Blanca Miriam Gomez"), "Personal administrativo must include Secretaria académica");
 assert(indexHtml.includes("Paulina Prieto"), "Servicios generales must include original group names");
 assert(indexHtml.includes("Coordinadora Olga Lucía Pinzón Avellaneda"), "Servicios generales must include Terapia ocupacional coordinator");
+assert(indexHtml.includes("Esperanza Méndez"), "Profesores must include Pre-escolar group names");
+assert(indexHtml.includes("Sandra Milena Otalora"), "Profesores must include the Primaria coordinator");
+assert(indexHtml.includes("Carlos Gonzáles"), "Profesores must include the Bachillerato coordinator");
+assert(indexHtml.includes("Nelson Yara"), "Profesores must include the final Bachillerato teacher");
 assert(!indexHtml.toLowerCase().includes(".swf"), "index.html must not embed Flash");
 assert(!appJs.toLowerCase().includes(".swf"), "app.js must not embed Flash");
 assert(!stylesCss.toLowerCase().includes(".swf"), "styles.css must not reference Flash");
@@ -106,6 +134,8 @@ const activePersonalAdministrativoSections = appJs.match(/\{\s*name:\s*'Personal
 assert(activePersonalAdministrativoSections.length === 1, "app.js must declare exactly one active Personal administrativo section");
 const activeServiciosGeneralesSections = appJs.match(/\{\s*name:\s*'Servicios generales',\s*active:\s*true,\s*href:\s*'#servicios-generales'\s*\}/g) || [];
 assert(activeServiciosGeneralesSections.length === 1, "app.js must declare exactly one active Servicios generales section");
+const activeProfesoresSections = appJs.match(/\{\s*name:\s*'Profesores',\s*active:\s*true,\s*href:\s*'#profesores'\s*\}/g) || [];
+assert(activeProfesoresSections.length === 1, "app.js must declare exactly one active Profesores section");
 assert(
   appJs.includes("item.textContent = active ? name : `${name} (pendiente)`;"),
   "app.js must mark pending navigation sections in its static source",
@@ -196,6 +226,14 @@ for (const asset of requiredServiciosGeneralesAssets) {
   assert(indexHtml.includes(asset), `Servicios generales asset must be referenced by index.html: ${asset}`);
 }
 
+for (const asset of requiredProfesoresAssets) {
+  assert(fs.existsSync(path.join(siteDir, asset)), `Profesores asset must exist: ${asset}`);
+  assert(
+    indexHtml.includes(asset) || stylesCss.includes(asset),
+    `Profesores asset must be referenced by the static site: ${asset}`,
+  );
+}
+
 assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
 assert(appJs.includes("renderLegacyArticle(student)"), "app.js must render article alumni layouts");
 assert(stylesCss.includes(".legacy-layout"), "styles.css must style composite alumni layouts");
@@ -203,5 +241,6 @@ assert(stylesCss.includes(".legacy-article"), "styles.css must style article alu
 assert(stylesCss.includes(".palabras-composite"), "styles.css must style the Gonzalo Serna composite");
 assert(stylesCss.includes(".staff-grid"), "styles.css must style Personal administrativo staff grid");
 assert(stylesCss.includes(".services-layout"), "styles.css must style Servicios generales layout");
+assert(stylesCss.includes(".teacher-grid"), "styles.css must style Profesores teacher grid");
 
 if (!process.exitCode) console.log("Static site verification passed.");
