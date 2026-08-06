@@ -359,6 +359,73 @@ h3 {
   min-height: 300px;
 }
 
+.section--servicios {
+  border-top: 1px solid #303a49;
+}
+
+.services-layout {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.service-panel,
+.service-card {
+  overflow: hidden;
+  background: #171d27;
+  border: 1px solid #303a49;
+  border-radius: 8px;
+}
+
+.service-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+}
+
+.service-panel--terapia {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.9fr);
+}
+
+.service-panel__copy {
+  padding: 1.5rem;
+}
+
+.service-panel__copy p {
+  color: #d6dee8;
+}
+
+.service-panel img,
+.service-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.service-people {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.service-card {
+  text-align: center;
+}
+
+.service-card img {
+  width: min(100%, 240px);
+  margin: 0 auto;
+  padding-top: 1rem;
+}
+
+.service-card h3 {
+  margin: 1rem 1rem 0.25rem;
+}
+
+.service-card p {
+  margin: 0 1rem 1.25rem;
+  color: #c7d2df;
+}
+
 .section--students {
   width: 100%;
   max-width: none;
@@ -698,6 +765,12 @@ h3 {
   .staff-card--lead img {
     height: auto;
     min-height: 0;
+  }
+
+  .service-panel,
+  .service-panel--terapia,
+  .service-people {
+    grid-template-columns: 1fr;
   }
 
   .prom-class-photos,

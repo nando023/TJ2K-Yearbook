@@ -4,7 +4,7 @@ const sections = [
   { name: 'Página principal', active: false },
   { name: 'Palabras de despedida', active: true, href: '#palabras' },
   { name: 'Personal administrativo', active: true, href: '#personal-administrativo' },
-  { name: 'Servicios generales', active: false },
+  { name: 'Servicios generales', active: true, href: '#servicios-generales' },
   { name: 'Profesores', active: false },
   { name: 'Prom 2000', active: true, href: '#prom-2000' },
   { name: 'Pre-escolar', active: false },
