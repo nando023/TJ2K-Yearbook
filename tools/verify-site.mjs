@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteDir = path.join(root, "site");
+const archiveImagesDir = path.join(root, "Archive", "ANUARIO", "imagenes");
 const indexHtml = fs.readFileSync(path.join(siteDir, "index.html"), "utf8");
 const appJs = fs.readFileSync(path.join(siteDir, "app.js"), "utf8");
 const stylesCss = fs.readFileSync(path.join(siteDir, "styles.css"), "utf8");
@@ -122,6 +123,17 @@ const requiredParejasAssets = [
   "assets/parejas/novios.jpg",
   "assets/parejas/prieto.jpg",
   "assets/parejas/mi-poste-y-yo.jpg",
+];
+const expectedParejasArchiveCopies = [
+  { source: "FONDO_PAREJAS.gif", asset: "assets/parejas/fondo-parejas.gif" },
+  { source: "BERNARDO & LUISA2.jpg", asset: "assets/parejas/bernardo-luisa.jpg" },
+  { source: "DEPRAVADO.jpg", asset: "assets/parejas/depravado.jpg" },
+  { source: "ELENA1.jpg", asset: "assets/parejas/elena.jpg" },
+  { source: "MARIA PAULA1.jpg", asset: "assets/parejas/maria-paula.jpg" },
+  { source: "SKA & CHULO.jpg", asset: "assets/parejas/ska-chulo.jpg" },
+  { source: "NOVIOS1.jpg", asset: "assets/parejas/novios.jpg" },
+  { source: "PRIETO2.jpg", asset: "assets/parejas/prieto.jpg" },
+  { source: "MI POSTE Y YO.jpg", asset: "assets/parejas/mi-poste-y-yo.jpg" },
 ];
 const expectedBachilleratoCards = [
   {
@@ -246,6 +258,19 @@ function assert(condition, message) {
 
 function decodeArchivePath(archivePath) {
   return archivePath.replace(/%([\dA-Fa-f]{2})/g, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)));
+}
+
+function assertSameFileBytes(sourceFile, siteAsset, label) {
+  const sourcePath = path.join(archiveImagesDir, sourceFile);
+  const sitePath = path.join(siteDir, siteAsset);
+  assert(fs.existsSync(sourcePath), `${label} archive source must exist: ${sourceFile}`);
+  assert(fs.existsSync(sitePath), `${label} site asset must exist: ${siteAsset}`);
+  if (!fs.existsSync(sourcePath) || !fs.existsSync(sitePath)) return;
+
+  assert(
+    Buffer.compare(fs.readFileSync(sourcePath), fs.readFileSync(sitePath)) === 0,
+    `${label} site asset must match archive bytes: ${siteAsset}`,
+  );
 }
 
 assert(indexHtml.includes('lang="es"'), "index.html must declare Spanish language");
@@ -624,6 +649,10 @@ for (const asset of requiredParejasAssets) {
     indexHtml.includes(asset) || stylesCss.includes(asset),
     `Parejas asset must be referenced by the static site: ${asset}`,
   );
+}
+
+for (const copy of expectedParejasArchiveCopies) {
+  assertSameFileBytes(copy.source, copy.asset, "Parejas");
 }
 
 const bachilleratoSection = indexHtml.match(/<section id="bachillerato"[\s\S]*?<\/section>\s*<\/main>/)?.[0] || "";
