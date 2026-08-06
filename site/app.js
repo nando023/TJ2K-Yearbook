@@ -13,7 +13,7 @@ const sections = [
   { name: 'Comités', active: true, href: '#comites' },
   { name: 'Equipos', active: true, href: '#equipos' },
   { name: 'Parejas', active: true, href: '#parejas' },
-  { name: 'Hermanos', active: false },
+  { name: 'Hermanos', active: true, href: '#hermanos' },
   { name: 'Collage', active: false },
 ];
 

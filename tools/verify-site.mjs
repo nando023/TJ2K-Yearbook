@@ -124,6 +124,21 @@ const requiredParejasAssets = [
   "assets/parejas/prieto.jpg",
   "assets/parejas/mi-poste-y-yo.jpg",
 ];
+const requiredHermanosAssets = [
+  "assets/hermanos/fondo-hermanos.jpg",
+  "assets/hermanos/bernardo-mas-uno.jpg",
+  "assets/hermanos/ku-klux-klan.jpg",
+  "assets/hermanos/familia-bom-bom-bum.jpg",
+  "assets/hermanos/familia-chan.jpg",
+  "assets/hermanos/familia-gallego.jpg",
+  "assets/hermanos/familia-desplazados.jpg",
+  "assets/hermanos/familia-picachu.jpg",
+  "assets/hermanos/familia-pirata.jpg",
+  "assets/hermanos/familia-skallenato.jpg",
+  "assets/hermanos/los-super-amigos.jpg",
+  "assets/hermanos/cartel-de-bogota.jpg",
+  "assets/hermanos/la-brigada-ska.jpg",
+];
 const expectedParejasArchiveCopies = [
   { source: "FONDO_PAREJAS.gif", asset: "assets/parejas/fondo-parejas.gif" },
   { source: "BERNARDO & LUISA2.jpg", asset: "assets/parejas/bernardo-luisa.jpg" },
@@ -134,6 +149,21 @@ const expectedParejasArchiveCopies = [
   { source: "NOVIOS1.jpg", asset: "assets/parejas/novios.jpg" },
   { source: "PRIETO2.jpg", asset: "assets/parejas/prieto.jpg" },
   { source: "MI POSTE Y YO.jpg", asset: "assets/parejas/mi-poste-y-yo.jpg" },
+];
+const expectedHermanosArchiveCopies = [
+  { source: "FONDO_HERMANOS.jpg", asset: "assets/hermanos/fondo-hermanos.jpg" },
+  { source: "BERNARDO + 1.jpg", asset: "assets/hermanos/bernardo-mas-uno.jpg" },
+  { source: "KU KLUX KLAN.jpg", asset: "assets/hermanos/ku-klux-klan.jpg" },
+  { source: "FAMILIA BOM BOM BUM.jpg", asset: "assets/hermanos/familia-bom-bom-bum.jpg" },
+  { source: "FAMILIA CHAN.jpg", asset: "assets/hermanos/familia-chan.jpg" },
+  { source: "FAMILIA GALLEGO.jpg", asset: "assets/hermanos/familia-gallego.jpg" },
+  { source: "FAMILIA DESPLAZADOS.jpg", asset: "assets/hermanos/familia-desplazados.jpg" },
+  { source: "FAMILIA PICACHU.jpg", asset: "assets/hermanos/familia-picachu.jpg" },
+  { source: "FAMILIA PIRATA.jpg", asset: "assets/hermanos/familia-pirata.jpg" },
+  { source: "FAMILIA SKALLENATO.jpg", asset: "assets/hermanos/familia-skallenato.jpg" },
+  { source: "LOS SUPER AMIGOS.jpg", asset: "assets/hermanos/los-super-amigos.jpg" },
+  { source: "CARTEL DE BOGOTA.jpg", asset: "assets/hermanos/cartel-de-bogota.jpg" },
+  { source: "LA BRIGADA SKA.jpg", asset: "assets/hermanos/la-brigada-ska.jpg" },
 ];
 const expectedBachilleratoCards = [
   {
@@ -248,6 +278,20 @@ const expectedParejasCards = [
   { title: "Prieto", image: "assets/parejas/prieto.jpg" },
   { title: "Mi poste y yo", image: "assets/parejas/mi-poste-y-yo.jpg" },
 ];
+const expectedHermanosCards = [
+  { title: "Bernardo + 1", image: "assets/hermanos/bernardo-mas-uno.jpg" },
+  { title: "Ku Klux Klan", image: "assets/hermanos/ku-klux-klan.jpg" },
+  { title: "Familia Bom Bom Bum", image: "assets/hermanos/familia-bom-bom-bum.jpg" },
+  { title: "Familia Chan", image: "assets/hermanos/familia-chan.jpg" },
+  { title: "Familia Gallego", image: "assets/hermanos/familia-gallego.jpg" },
+  { title: "Familia Desplazados", image: "assets/hermanos/familia-desplazados.jpg" },
+  { title: "Familia Picachu", image: "assets/hermanos/familia-picachu.jpg" },
+  { title: "Familia Pirata", image: "assets/hermanos/familia-pirata.jpg" },
+  { title: "Familia Skallenato", image: "assets/hermanos/familia-skallenato.jpg" },
+  { title: "Los super amigos", image: "assets/hermanos/los-super-amigos.jpg" },
+  { title: "Cartel de Bogotá", image: "assets/hermanos/cartel-de-bogota.jpg" },
+  { title: "La brigada SKA", image: "assets/hermanos/la-brigada-ska.jpg" },
+];
 
 function assert(condition, message) {
   if (!condition) {
@@ -285,6 +329,7 @@ assert(indexHtml.includes('id="bachillerato"'), "Bachillerato section must exist
 assert(indexHtml.includes('id="comites"'), "Comités section must exist");
 assert(indexHtml.includes('id="equipos"'), "Equipos section must exist");
 assert(indexHtml.includes('id="parejas"'), "Parejas section must exist");
+assert(indexHtml.includes('id="hermanos"'), "Hermanos section must exist");
 assert(indexHtml.includes("Momentos 11"), "Prom 2000 section must include Momentos 11");
 assert(indexHtml.includes("Palabras 11"), "Palabras section must include Palabras 11");
 assert(indexHtml.includes("Adolfo Ballesteros F. Prom 2000"), "Palabras 11 text must include its signature");
@@ -380,7 +425,13 @@ assert(indexHtml.includes("Bernardo y Luisa"), "Parejas must include Bernardo y 
 assert(indexHtml.includes("Ska y Chulo"), "Parejas must include Ska y Chulo");
 assert(indexHtml.includes("Mi poste y yo"), "Parejas must include Mi poste y yo");
 assert(indexHtml.includes('href="#equipos">Anterior: Equipos</a>'), "Parejas must link back to Equipos");
-assert(indexHtml.includes("<span>Siguiente: Hermanos</span>"), "Parejas must preserve Hermanos as the next section");
+assert(indexHtml.includes('href="#hermanos">Siguiente: Hermanos</a>'), "Parejas must link forward to Hermanos");
+assert(indexHtml.includes("Bernardo + 1"), "Hermanos must include Bernardo + 1");
+assert(indexHtml.includes("Familia Bom Bom Bum"), "Hermanos must include Familia Bom Bom Bum");
+assert(indexHtml.includes("Cartel de Bogotá"), "Hermanos must include Cartel de Bogotá");
+assert(indexHtml.includes("La brigada SKA"), "Hermanos must include La brigada SKA");
+assert(indexHtml.includes('href="#parejas">Anterior: Parejas</a>'), "Hermanos must link back to Parejas");
+assert(indexHtml.includes("<span>Siguiente: Collage</span>"), "Hermanos must preserve Collage as the next section");
 assert(!indexHtml.toLowerCase().includes(".swf"), "index.html must not embed Flash");
 assert(!appJs.toLowerCase().includes(".swf"), "app.js must not embed Flash");
 assert(!stylesCss.toLowerCase().includes(".swf"), "styles.css must not reference Flash");
@@ -437,6 +488,8 @@ const activeEquiposSections = appJs.match(/\{\s*name:\s*'Equipos',\s*active:\s*t
 assert(activeEquiposSections.length === 1, "app.js must declare exactly one active Equipos section");
 const activeParejasSections = appJs.match(/\{\s*name:\s*'Parejas',\s*active:\s*true,\s*href:\s*'#parejas'\s*\}/g) || [];
 assert(activeParejasSections.length === 1, "app.js must declare exactly one active Parejas section");
+const activeHermanosSections = appJs.match(/\{\s*name:\s*'Hermanos',\s*active:\s*true,\s*href:\s*'#hermanos'\s*\}/g) || [];
+assert(activeHermanosSections.length === 1, "app.js must declare exactly one active Hermanos section");
 assert(
   appJs.indexOf("name: 'Prom 2000'") < appJs.indexOf("name: 'Pre-escolar'"),
   "app.js must keep Prom 2000 before Pre-escolar to match the archive section order",
@@ -460,6 +513,10 @@ assert(
 assert(
   appJs.indexOf("name: 'Equipos'") < appJs.indexOf("name: 'Parejas'"),
   "app.js must keep Equipos before Parejas to match the archive section order",
+);
+assert(
+  appJs.indexOf("name: 'Parejas'") < appJs.indexOf("name: 'Hermanos'"),
+  "app.js must keep Parejas before Hermanos to match the archive section order",
 );
 assert(
   indexHtml.indexOf('href="#prom-2000"') < indexHtml.indexOf('href="#preescolar"'),
@@ -504,6 +561,14 @@ assert(
 assert(
   indexHtml.indexOf('id="equipos"') < indexHtml.indexOf('id="parejas"'),
   "page sections must keep Equipos before Parejas",
+);
+assert(
+  indexHtml.indexOf('href="#parejas"') < indexHtml.indexOf('href="#hermanos"'),
+  "top navigation must keep Parejas before Hermanos",
+);
+assert(
+  indexHtml.indexOf('id="parejas"') < indexHtml.indexOf('id="hermanos"'),
+  "page sections must keep Parejas before Hermanos",
 );
 assert(
   appJs.includes("item.textContent = active ? name : `${name} (pendiente)`;"),
@@ -651,8 +716,20 @@ for (const asset of requiredParejasAssets) {
   );
 }
 
+for (const asset of requiredHermanosAssets) {
+  assert(fs.existsSync(path.join(siteDir, asset)), `Hermanos asset must exist: ${asset}`);
+  assert(
+    indexHtml.includes(asset) || stylesCss.includes(asset),
+    `Hermanos asset must be referenced by the static site: ${asset}`,
+  );
+}
+
 for (const copy of expectedParejasArchiveCopies) {
   assertSameFileBytes(copy.source, copy.asset, "Parejas");
+}
+
+for (const copy of expectedHermanosArchiveCopies) {
+  assertSameFileBytes(copy.source, copy.asset, "Hermanos");
 }
 
 const bachilleratoSection = indexHtml.match(/<section id="bachillerato"[\s\S]*?<\/section>\s*<\/main>/)?.[0] || "";
@@ -699,6 +776,16 @@ expectedParejasCards.forEach((expected, index) => {
   assert(card.includes(`src="./${expected.image}"`), `${expected.title} must use ${expected.image}`);
 });
 
+const hermanosSection = indexHtml.match(/<section id="hermanos"[\s\S]*?<\/section>\s*<\/main>/)?.[0] || "";
+const hermanosCardMatches = [...hermanosSection.matchAll(/<figure class="hermano-card">([\s\S]*?)<\/figure>/g)];
+assert(hermanosCardMatches.length === expectedHermanosCards.length, "Hermanos must render exactly twelve photo cards");
+
+expectedHermanosCards.forEach((expected, index) => {
+  const card = hermanosCardMatches[index]?.[1] || "";
+  assert(card.includes(`<figcaption>${expected.title}</figcaption>`), `Hermanos card ${index + 1} must be ${expected.title}`);
+  assert(card.includes(`src="./${expected.image}"`), `${expected.title} must use ${expected.image}`);
+});
+
 assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
 assert(appJs.includes("renderLegacyArticle(student)"), "app.js must render article alumni layouts");
 assert(stylesCss.includes(".legacy-layout"), "styles.css must style composite alumni layouts");
@@ -711,6 +798,8 @@ assert(stylesCss.includes(".equipo-card img {\n  display: block;\n  width: 100%;
 assert(!stylesCss.includes(".equipo-card:not(.equipo-card--wide) img"), "Equipos images must not use a shared cropping rule");
 assert(stylesCss.includes("assets/parejas/fondo-parejas.gif"), "Parejas must use its original background");
 assert(stylesCss.includes(".pareja-card img {\n  display: block;\n  width: 100%;\n  height: auto;"), "Parejas images must render uncropped with natural aspect ratio");
+assert(stylesCss.includes("assets/hermanos/fondo-hermanos.jpg"), "Hermanos must use its original background");
+assert(stylesCss.includes(".hermano-card img {\n  display: block;\n  width: 100%;\n  height: auto;"), "Hermanos images must render uncropped with natural aspect ratio");
 assert(stylesCss.includes(".staff-grid"), "styles.css must style Personal administrativo staff grid");
 assert(stylesCss.includes(".services-layout"), "styles.css must style Servicios generales layout");
 assert(stylesCss.includes(".teacher-grid"), "styles.css must style Profesores teacher grid");
@@ -720,6 +809,7 @@ assert(stylesCss.includes(".bachillerato-layout"), "styles.css must style Bachil
 assert(stylesCss.includes(".comites-layout"), "styles.css must style Comités layout");
 assert(stylesCss.includes(".equipos-layout"), "styles.css must style Equipos layout");
 assert(stylesCss.includes(".parejas-layout"), "styles.css must style Parejas layout");
+assert(stylesCss.includes(".hermanos-layout"), "styles.css must style Hermanos layout");
 assert(stylesCss.includes(".section-sequence"), "styles.css must style section sequence navigation");
 
 if (!process.exitCode) console.log("Static site verification passed.");
