@@ -5,7 +5,31 @@ export const students = [
     "group": "11A",
     "legacyPage": "Archive/ANUARIO/paginas11/bernardo.htm",
     "image": "Archive/ANUARIO/imagenes/NUEVAS%20FOTOS/BERNARDO%20ALVAREZ.jpg",
-    "hasProfileImage": true
+    "hasProfileImage": true,
+    "legacyLayout": {
+      "type": "composite",
+      "width": 622,
+      "height": 802,
+      "background": "#ffffff",
+      "images": [
+        {
+          "src": "assets/students/legacy/bernardo.jpg",
+          "alt": "Página original de Álvarez Castrillon Bernardo",
+          "left": 0,
+          "top": 0,
+          "width": 622,
+          "height": 802
+        },
+        {
+          "src": "assets/students/alvarez-castrillon-bernardo.jpg",
+          "alt": "Fotografía superpuesta de Álvarez Castrillon Bernardo",
+          "left": 105,
+          "top": 37,
+          "width": 192,
+          "height": 261
+        }
+      ]
+    }
   },
   {
     "id": "ballesteros-fernandez-adolfo",
@@ -13,7 +37,31 @@ export const students = [
     "group": "11B",
     "legacyPage": "Archive/ANUARIO/paginas11/adolfo_b.htm",
     "image": "Archive/ANUARIO/imagenes/alumnos/adolfo_b.JPG",
-    "hasProfileImage": true
+    "hasProfileImage": true,
+    "legacyLayout": {
+      "type": "composite",
+      "width": 755,
+      "height": 1190,
+      "background": "#000000",
+      "images": [
+        {
+          "src": "assets/students/ballesteros-fernandez-adolfo.JPG",
+          "alt": "Página original de Ballesteros Fernandez Adolfo",
+          "left": 0,
+          "top": 0,
+          "width": 755,
+          "height": 1190
+        },
+        {
+          "src": "assets/students/legacy/1.jpg",
+          "alt": "Fotografía superpuesta de Ballesteros Fernandez Adolfo",
+          "left": 20,
+          "top": 29,
+          "width": 215,
+          "height": 299
+        }
+      ]
+    }
   },
   {
     "id": "baron-marulanda-ana-felina",
@@ -53,7 +101,31 @@ export const students = [
     "group": "11A",
     "legacyPage": "Archive/ANUARIO/paginas11/diego.htm",
     "image": "Archive/ANUARIO/imagenes/0000000.jpg",
-    "hasProfileImage": true
+    "hasProfileImage": true,
+    "legacyLayout": {
+      "type": "composite",
+      "width": 755,
+      "height": 1089,
+      "background": "#ffffff",
+      "images": [
+        {
+          "src": "assets/students/legacy/diego.JPG",
+          "alt": "Página original de Berdugo Rodriguez Diego Fernando",
+          "left": 0,
+          "top": 0,
+          "width": 755,
+          "height": 1089
+        },
+        {
+          "src": "assets/students/berdugo-rodriguez-diego-fernando.jpg",
+          "alt": "Fotografía superpuesta de Berdugo Rodriguez Diego Fernando",
+          "left": 613,
+          "top": 304,
+          "width": 111,
+          "height": 115
+        }
+      ]
+    }
   },
   {
     "id": "donoso-cubillos-santiago",
@@ -141,7 +213,31 @@ export const students = [
     "group": "11B",
     "legacyPage": "Archive/ANUARIO/paginas11/carolina_delaosa.htm",
     "image": "Archive/ANUARIO/imagenes/alumnos/caro.jpg",
-    "hasProfileImage": true
+    "hasProfileImage": true,
+    "legacyLayout": {
+      "type": "composite",
+      "width": 622,
+      "height": 785,
+      "background": "#ffffff",
+      "images": [
+        {
+          "src": "assets/students/legacy/mesa-de-la-osita.jpg",
+          "alt": "Página original de Mesa De La Ossa Carolina",
+          "left": 0,
+          "top": 0,
+          "width": 622,
+          "height": 785
+        },
+        {
+          "src": "assets/students/mesa-de-la-ossa-carolina.jpg",
+          "alt": "Fotografía superpuesta de Mesa De La Ossa Carolina",
+          "left": 127,
+          "top": 59,
+          "width": 163,
+          "height": 262
+        }
+      ]
+    }
   },
   {
     "id": "gomez-gomez-cesar-euclides",
@@ -213,7 +309,31 @@ export const students = [
     "group": "11A",
     "legacyPage": "Archive/ANUARIO/paginas11/luisa_fernanda.htm",
     "image": "Archive/ANUARIO/imagenes/alumnos/luisa_fernanda.jpg",
-    "hasProfileImage": true
+    "hasProfileImage": true,
+    "legacyLayout": {
+      "type": "composite",
+      "width": 668,
+      "height": 872,
+      "background": "#ffffff",
+      "images": [
+        {
+          "src": "assets/students/jimenez-giraldo-luisa-fernanda.jpg",
+          "alt": "Página original de Jiménez Giraldo Luisa Fernanda",
+          "left": 0,
+          "top": 0,
+          "width": 668,
+          "height": 872
+        },
+        {
+          "src": "assets/students/legacy/luisa-fernanda-jimenez.jpg",
+          "alt": "Fotografía superpuesta de Jiménez Giraldo Luisa Fernanda",
+          "left": 36,
+          "top": 52,
+          "width": 253,
+          "height": 312
+        }
+      ]
+    }
   },
   {
     "id": "palacios-borda-carolina",
@@ -245,7 +365,31 @@ export const students = [
     "group": "11A",
     "legacyPage": "Archive/ANUARIO/paginas11/david_osorio.htm",
     "image": "Archive/ANUARIO/imagenes/alumnos/david%20osorio.jpg",
-    "hasProfileImage": true
+    "hasProfileImage": true,
+    "legacyLayout": {
+      "type": "composite",
+      "width": 755,
+      "height": 1190,
+      "background": "#ffffff",
+      "images": [
+        {
+          "src": "assets/students/osorio-vargas-david-alexander.jpg",
+          "alt": "Página original de Osorio Vargas David Alexander",
+          "left": 0,
+          "top": 0,
+          "width": 755,
+          "height": 1190
+        },
+        {
+          "src": "assets/students/legacy/11.jpg",
+          "alt": "Fotografía superpuesta de Osorio Vargas David Alexander",
+          "left": 57,
+          "top": 199,
+          "width": 145,
+          "height": 212
+        }
+      ]
+    }
   },
   {
     "id": "sarmiento-ortiz-camilo-alberto",
@@ -317,7 +461,31 @@ export const students = [
     "group": "11B",
     "legacyPage": "Archive/ANUARIO/paginas11/rafael_villamizar.htm",
     "image": "Archive/ANUARIO/imagenes/alumnos/Rafael%20V.jpg",
-    "hasProfileImage": true
+    "hasProfileImage": true,
+    "legacyLayout": {
+      "type": "composite",
+      "width": 651,
+      "height": 860,
+      "background": "#ffffff",
+      "images": [
+        {
+          "src": "assets/students/legacy/rafael-villamizar.JPG",
+          "alt": "Página original de Villamizar Angulo Rafael Antonio",
+          "left": 0,
+          "top": 0,
+          "width": 651,
+          "height": 860
+        },
+        {
+          "src": "assets/students/villamizar-angulo-rafael-antonio.jpg",
+          "alt": "Fotografía superpuesta de Villamizar Angulo Rafael Antonio",
+          "left": 52,
+          "top": 19,
+          "width": 242,
+          "height": 343
+        }
+      ]
+    }
   },
   {
     "id": "vasquez-gomez-andres-ricardo",

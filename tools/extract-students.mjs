@@ -8,6 +8,78 @@ const pagesDir = path.join(root, "Archive/ANUARIO/paginas11");
 const outputPath = path.join(root, "site/students.js");
 
 const imageByLegacyPage = new Map();
+const legacyLayoutsByPage = new Map([
+  ["../paginas11/adolfo_b.htm", {
+    type: "composite",
+    width: 755,
+    height: 1190,
+    background: "#000000",
+    images: [
+      { src: "assets/students/ballesteros-fernandez-adolfo.JPG", alt: "Página original de Ballesteros Fernandez Adolfo", left: 0, top: 0, width: 755, height: 1190 },
+      { src: "assets/students/legacy/1.jpg", alt: "Fotografía superpuesta de Ballesteros Fernandez Adolfo", left: 20, top: 29, width: 215, height: 299 },
+    ],
+  }],
+  ["../paginas11/bernardo.htm", {
+    type: "composite",
+    width: 622,
+    height: 802,
+    background: "#ffffff",
+    images: [
+      { src: "assets/students/legacy/bernardo.jpg", alt: "Página original de Álvarez Castrillon Bernardo", left: 0, top: 0, width: 622, height: 802 },
+      { src: "assets/students/alvarez-castrillon-bernardo.jpg", alt: "Fotografía superpuesta de Álvarez Castrillon Bernardo", left: 105, top: 37, width: 192, height: 261 },
+    ],
+  }],
+  ["../paginas11/carolina_delaosa.htm", {
+    type: "composite",
+    width: 622,
+    height: 785,
+    background: "#ffffff",
+    images: [
+      { src: "assets/students/legacy/mesa-de-la-osita.jpg", alt: "Página original de Mesa De La Ossa Carolina", left: 0, top: 0, width: 622, height: 785 },
+      { src: "assets/students/mesa-de-la-ossa-carolina.jpg", alt: "Fotografía superpuesta de Mesa De La Ossa Carolina", left: 127, top: 59, width: 163, height: 262 },
+    ],
+  }],
+  ["../paginas11/david_osorio.htm", {
+    type: "composite",
+    width: 755,
+    height: 1190,
+    background: "#ffffff",
+    images: [
+      { src: "assets/students/osorio-vargas-david-alexander.jpg", alt: "Página original de Osorio Vargas David Alexander", left: 0, top: 0, width: 755, height: 1190 },
+      { src: "assets/students/legacy/11.jpg", alt: "Fotografía superpuesta de Osorio Vargas David Alexander", left: 57, top: 199, width: 145, height: 212 },
+    ],
+  }],
+  ["../paginas11/diego.htm", {
+    type: "composite",
+    width: 755,
+    height: 1089,
+    background: "#ffffff",
+    images: [
+      { src: "assets/students/legacy/diego.JPG", alt: "Página original de Berdugo Rodriguez Diego Fernando", left: 0, top: 0, width: 755, height: 1089 },
+      { src: "assets/students/berdugo-rodriguez-diego-fernando.jpg", alt: "Fotografía superpuesta de Berdugo Rodriguez Diego Fernando", left: 613, top: 304, width: 111, height: 115 },
+    ],
+  }],
+  ["../paginas11/luisa_fernanda.htm", {
+    type: "composite",
+    width: 668,
+    height: 872,
+    background: "#ffffff",
+    images: [
+      { src: "assets/students/jimenez-giraldo-luisa-fernanda.jpg", alt: "Página original de Jiménez Giraldo Luisa Fernanda", left: 0, top: 0, width: 668, height: 872 },
+      { src: "assets/students/legacy/luisa-fernanda-jimenez.jpg", alt: "Fotografía superpuesta de Jiménez Giraldo Luisa Fernanda", left: 36, top: 52, width: 253, height: 312 },
+    ],
+  }],
+  ["../paginas11/rafael_villamizar.htm", {
+    type: "composite",
+    width: 651,
+    height: 860,
+    background: "#ffffff",
+    images: [
+      { src: "assets/students/legacy/rafael-villamizar.JPG", alt: "Página original de Villamizar Angulo Rafael Antonio", left: 0, top: 0, width: 651, height: 860 },
+      { src: "assets/students/villamizar-angulo-rafael-antonio.jpg", alt: "Fotografía superpuesta de Villamizar Angulo Rafael Antonio", left: 52, top: 19, width: 242, height: 343 },
+    ],
+  }],
+]);
 const sourceCorrections = new Map([
   ["Pal Forero Sonali", {
     legacyPage: "../paginas11/sonali.htm",
@@ -74,14 +146,19 @@ for (const row of rows) {
       image = correction.image;
     }
 
-    students.push({
+    const legacyLayout = legacyLayoutsByPage.get(normalizeLegacyPage(legacyPage));
+    const student = {
       id: slugify(text),
       name: text,
       group: index === 0 ? "11A" : "11B",
       legacyPage: legacyPage.replace("../", "Archive/ANUARIO/"),
       image,
       hasProfileImage: Boolean(image),
-    });
+    };
+
+    if (legacyLayout) student.legacyLayout = legacyLayout;
+
+    students.push(student);
   });
 }
 
