@@ -9,7 +9,7 @@ const sections = [
   { name: 'Prom 2000', active: true, href: '#prom-2000' },
   { name: 'Pre-escolar', active: true, href: '#preescolar' },
   { name: 'Primaria', active: true, href: '#primaria' },
-  { name: 'Bachillerato', active: false },
+  { name: 'Bachillerato', active: true, href: '#bachillerato' },
   { name: 'Comités', active: false },
   { name: 'Equipos', active: false },
   { name: 'Parejas', active: false },

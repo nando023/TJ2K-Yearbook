@@ -85,6 +85,95 @@ const requiredPrimariaAssets = [
   "assets/primaria/quinto-a.jpg",
   "assets/primaria/quinto-b.jpg",
 ];
+const requiredBachilleratoAssets = [
+  "assets/bachillerato/fondo-fiesta.jpg",
+  "assets/bachillerato/sexto-a.jpg",
+  "assets/bachillerato/sexto-b.jpg",
+  "assets/bachillerato/septimo-a.jpg",
+  "assets/bachillerato/septimo-b.jpg",
+  "assets/bachillerato/octavo-a.jpg",
+  "assets/bachillerato/octavo-b.jpg",
+  "assets/bachillerato/noveno-a.jpg",
+  "assets/bachillerato/noveno-b.jpg",
+  "assets/bachillerato/decimo-a.jpg",
+  "assets/bachillerato/decimo-b.jpg",
+  "assets/bachillerato/undecimo-a.jpg",
+  "assets/bachillerato/undecimo-b.jpg",
+];
+const expectedBachilleratoCards = [
+  {
+    title: "Sexto A",
+    image: "assets/bachillerato/sexto-a.jpg",
+    detail: "Fila 1: Andrés F. Morales",
+    teacher: "Miss Ana Rosa Melo",
+  },
+  {
+    title: "Sexto B",
+    image: "assets/bachillerato/sexto-b.jpg",
+    detail: "Juan Sebastián Martínez e Iver Andrés Puentes M.",
+    teacher: "Miss Constanza Umaña",
+  },
+  {
+    title: "Séptimo A",
+    image: "assets/bachillerato/septimo-a.jpg",
+    detail: "Jaime Ortíz",
+    teacher: "Profesor Ricardo Palacios",
+  },
+  {
+    title: "Séptimo B",
+    image: "assets/bachillerato/septimo-b.jpg",
+    detail: "Oscar Hernández, Oscar Hernández",
+    teacher: "Profesor Wilmer Vargas",
+  },
+  {
+    title: "Octavo A",
+    image: "assets/bachillerato/octavo-a.jpg",
+    detail: "Migule Rivera",
+    teacher: "Profesor Hector Gonzalez Tuesta",
+  },
+  {
+    title: "Octavo B",
+    image: "assets/bachillerato/octavo-b.jpg",
+    detail: "Fila 1, de izquierda a derecha",
+    teacher: "Profesor Nelson Mejía Ramírez",
+  },
+  {
+    title: "Noveno A",
+    image: "assets/bachillerato/noveno-a.jpg",
+    detail: "De arriba hacia abajo y de izquierda a derecha",
+    teacher: "Miss Luz Dary Cadena",
+  },
+  {
+    title: "Noveno B",
+    image: "assets/bachillerato/noveno-b.jpg",
+    detail: "De izquierda a derecha. Fila 1",
+    teacher: "Profesor Gonzalo Serna",
+  },
+  {
+    title: "Décimo A",
+    image: "assets/bachillerato/decimo-a.jpg",
+    detail: "Carlos E. Palacios",
+    teacher: "Profesor Fernando Andres Gonzáles",
+  },
+  {
+    title: "Décimo B",
+    image: "assets/bachillerato/decimo-b.jpg",
+    detail: "Alejandra Álvarez",
+    teacher: "Profesor Juan C. Currea",
+  },
+  {
+    title: "Undécimo A",
+    image: "assets/bachillerato/undecimo-a.jpg",
+    detail: "Felipe Camargo",
+    teacher: "Profesor Adolfo Triana",
+  },
+  {
+    title: "Undécimo B",
+    image: "assets/bachillerato/undecimo-b.jpg",
+    detail: "Ausentes: Oswaldo Fajardo y Norma Forero",
+    teacher: "Profesor Manuel Gozalez",
+  },
+];
 
 function assert(condition, message) {
   if (!condition) {
@@ -105,6 +194,7 @@ assert(indexHtml.includes('id="servicios-generales"'), "Servicios generales sect
 assert(indexHtml.includes('id="profesores"'), "Profesores section must exist");
 assert(indexHtml.includes('id="preescolar"'), "Pre-escolar section must exist");
 assert(indexHtml.includes('id="primaria"'), "Primaria section must exist");
+assert(indexHtml.includes('id="bachillerato"'), "Bachillerato section must exist");
 assert(indexHtml.includes("Momentos 11"), "Prom 2000 section must include Momentos 11");
 assert(indexHtml.includes("Palabras 11"), "Palabras section must include Palabras 11");
 assert(indexHtml.includes("Adolfo Ballesteros F. Prom 2000"), "Palabras 11 text must include its signature");
@@ -151,6 +241,33 @@ assert(indexHtml.includes("Profesor Jaime Gonzáles"), "Primaria must include Qu
 assert(indexHtml.includes("(atrás) David Acuña Hurtado"), "Primaria Quinto A must preserve the original positional note");
 assert(indexHtml.includes("Quinto B"), "Primaria must include Quinto B");
 assert(indexHtml.includes("Profesor Julián Peña"), "Primaria must include Quinto B teacher");
+assert(indexHtml.includes("Sexto A"), "Bachillerato must include Sexto A");
+assert(indexHtml.includes("Miss Ana Rosa Melo"), "Bachillerato must include Sexto A teacher");
+assert(indexHtml.includes("Sexto B"), "Bachillerato must include Sexto B");
+assert(indexHtml.includes("Miss Constanza Umaña"), "Bachillerato must include Sexto B teacher");
+assert(indexHtml.includes("Séptimo A"), "Bachillerato must include Séptimo A");
+assert(indexHtml.includes("Profesor Ricardo Palacios"), "Bachillerato must include Séptimo A teacher");
+assert(indexHtml.includes("Séptimo B"), "Bachillerato must include Séptimo B");
+assert(indexHtml.includes("Oscar Hernández, Oscar Hernández"), "Bachillerato Séptimo B must preserve the duplicate source entry");
+assert(indexHtml.includes("Profesor Wilmer Vargas"), "Bachillerato must include Séptimo B teacher");
+assert(indexHtml.includes("Octavo A"), "Bachillerato must include Octavo A");
+assert(indexHtml.includes("Profesor Hector Gonzalez Tuesta"), "Bachillerato must include Octavo A teacher");
+assert(indexHtml.includes("Octavo B"), "Bachillerato must include Octavo B");
+assert(indexHtml.includes("Profesor Nelson Mejía Ramírez"), "Bachillerato must include Octavo B teacher");
+assert(indexHtml.includes("Noveno A"), "Bachillerato must include Noveno A");
+assert(indexHtml.includes("Miss Luz Dary Cadena"), "Bachillerato must include Noveno A teacher");
+assert(indexHtml.includes("Noveno B"), "Bachillerato must include Noveno B");
+assert(indexHtml.includes("Profesor Gonzalo Serna"), "Bachillerato must include Noveno B teacher");
+assert(indexHtml.includes("Décimo A"), "Bachillerato must include Décimo A");
+assert(indexHtml.includes("Profesor Fernando Andres Gonzáles"), "Bachillerato must include Décimo A teacher");
+assert(indexHtml.includes("Décimo B"), "Bachillerato must include Décimo B");
+assert(indexHtml.includes("Profesor Juan C. Currea"), "Bachillerato must include Décimo B teacher");
+assert(indexHtml.includes("Undécimo A"), "Bachillerato must include Undécimo A");
+assert(indexHtml.includes("Felipe Camargo"), "Bachillerato Undécimo A must include source roster names");
+assert(indexHtml.includes("Profesor Adolfo Triana"), "Bachillerato must include Undécimo A teacher");
+assert(indexHtml.includes("Undécimo B"), "Bachillerato must include Undécimo B");
+assert(indexHtml.includes("Ausentes: Oswaldo Fajardo y Norma Forero"), "Bachillerato Undécimo B must preserve absent students");
+assert(indexHtml.includes("Profesor Manuel Gozalez"), "Bachillerato must include Undécimo B teacher");
 assert(!indexHtml.toLowerCase().includes(".swf"), "index.html must not embed Flash");
 assert(!appJs.toLowerCase().includes(".swf"), "app.js must not embed Flash");
 assert(!stylesCss.toLowerCase().includes(".swf"), "styles.css must not reference Flash");
@@ -199,6 +316,8 @@ const activePreescolarSections = appJs.match(/\{\s*name:\s*'Pre-escolar',\s*acti
 assert(activePreescolarSections.length === 1, "app.js must declare exactly one active Pre-escolar section");
 const activePrimariaSections = appJs.match(/\{\s*name:\s*'Primaria',\s*active:\s*true,\s*href:\s*'#primaria'\s*\}/g) || [];
 assert(activePrimariaSections.length === 1, "app.js must declare exactly one active Primaria section");
+const activeBachilleratoSections = appJs.match(/\{\s*name:\s*'Bachillerato',\s*active:\s*true,\s*href:\s*'#bachillerato'\s*\}/g) || [];
+assert(activeBachilleratoSections.length === 1, "app.js must declare exactly one active Bachillerato section");
 assert(
   appJs.indexOf("name: 'Prom 2000'") < appJs.indexOf("name: 'Pre-escolar'"),
   "app.js must keep Prom 2000 before Pre-escolar to match the archive section order",
@@ -206,6 +325,10 @@ assert(
 assert(
   appJs.indexOf("name: 'Pre-escolar'") < appJs.indexOf("name: 'Primaria'"),
   "app.js must keep Pre-escolar before Primaria to match the archive section order",
+);
+assert(
+  appJs.indexOf("name: 'Primaria'") < appJs.indexOf("name: 'Bachillerato'"),
+  "app.js must keep Primaria before Bachillerato to match the archive section order",
 );
 assert(
   indexHtml.indexOf('href="#prom-2000"') < indexHtml.indexOf('href="#preescolar"'),
@@ -218,6 +341,14 @@ assert(
 assert(
   indexHtml.indexOf('id="preescolar"') < indexHtml.indexOf('id="primaria"'),
   "page sections must keep Pre-escolar before Primaria",
+);
+assert(
+  indexHtml.indexOf('href="#primaria"') < indexHtml.indexOf('href="#bachillerato"'),
+  "top navigation must keep Primaria before Bachillerato",
+);
+assert(
+  indexHtml.indexOf('id="primaria"') < indexHtml.indexOf('id="bachillerato"'),
+  "page sections must keep Primaria before Bachillerato",
 );
 assert(
   appJs.includes("item.textContent = active ? name : `${name} (pendiente)`;"),
@@ -333,6 +464,26 @@ for (const asset of requiredPrimariaAssets) {
   );
 }
 
+for (const asset of requiredBachilleratoAssets) {
+  assert(fs.existsSync(path.join(siteDir, asset)), `Bachillerato asset must exist: ${asset}`);
+  assert(
+    indexHtml.includes(asset) || stylesCss.includes(asset),
+    `Bachillerato asset must be referenced by the static site: ${asset}`,
+  );
+}
+
+const bachilleratoSection = indexHtml.match(/<section id="bachillerato"[\s\S]*?<\/section>\s*<\/main>/)?.[0] || "";
+const bachilleratoCardMatches = [...bachilleratoSection.matchAll(/<article class="bachillerato-card">([\s\S]*?)<\/article>/g)];
+assert(bachilleratoCardMatches.length === expectedBachilleratoCards.length, "Bachillerato must render exactly 12 class cards");
+
+expectedBachilleratoCards.forEach((expected, index) => {
+  const card = bachilleratoCardMatches[index]?.[1] || "";
+  assert(card.includes(`<h3>${expected.title}</h3>`), `Bachillerato card ${index + 1} must be ${expected.title}`);
+  assert(card.includes(`src="./${expected.image}"`), `${expected.title} must use ${expected.image}`);
+  assert(card.includes(expected.detail), `${expected.title} must preserve source detail: ${expected.detail}`);
+  assert(card.includes(`<strong>${expected.teacher}</strong>`), `${expected.title} must include teacher ${expected.teacher}`);
+});
+
 assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
 assert(appJs.includes("renderLegacyArticle(student)"), "app.js must render article alumni layouts");
 assert(stylesCss.includes(".legacy-layout"), "styles.css must style composite alumni layouts");
@@ -343,5 +494,6 @@ assert(stylesCss.includes(".services-layout"), "styles.css must style Servicios 
 assert(stylesCss.includes(".teacher-grid"), "styles.css must style Profesores teacher grid");
 assert(stylesCss.includes(".preescolar-layout"), "styles.css must style Pre-escolar class layout");
 assert(stylesCss.includes(".primaria-layout"), "styles.css must style Primaria class layout");
+assert(stylesCss.includes(".bachillerato-layout"), "styles.css must style Bachillerato class layout");
 
 if (!process.exitCode) console.log("Static site verification passed.");
