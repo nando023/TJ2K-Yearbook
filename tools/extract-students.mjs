@@ -8,6 +8,12 @@ const pagesDir = path.join(root, "Archive/ANUARIO/paginas11");
 const outputPath = path.join(root, "site/students.js");
 
 const imageByLegacyPage = new Map();
+const sourceCorrections = new Map([
+  ["Pal Forero Sonali", {
+    legacyPage: "../paginas11/sonali.htm",
+    image: "Archive/ANUARIO/imagenes/alumnos/sonali.jpg",
+  }],
+]);
 
 function normalizeLegacyPage(value) {
   return value.replace(/%([0-9a-f]{2})/gi, (_, hex) =>
@@ -57,10 +63,17 @@ for (const row of rows) {
     const linkMatch = cell[0].match(/<a\s+href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/i);
     const text = cleanText((linkMatch ? linkMatch[2] : cell[0]).replace(/<[^>]*>/g, " "));
     if (!text || ["11A", "11 B"].includes(text) || text.length < 5) return;
-    const legacyPage = linkMatch ? linkMatch[1] : "";
-    const image = legacyPage
+    let legacyPage = linkMatch ? linkMatch[1] : "";
+    let image = legacyPage
       ? imageByLegacyPage.get(normalizeLegacyPage(legacyPage)) || ""
       : "";
+    const correction = sourceCorrections.get(text);
+
+    if (correction) {
+      legacyPage = correction.legacyPage;
+      image = correction.image;
+    }
+
     students.push({
       id: slugify(text),
       name: text,

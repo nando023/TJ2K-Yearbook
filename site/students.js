@@ -187,8 +187,8 @@ export const students = [
     "id": "pal-forero-sonali",
     "name": "Pal Forero Sonali",
     "group": "11B",
-    "legacyPage": "Archive/ANUARIO/paginas11/ana_baron.htm",
-    "image": "Archive/ANUARIO/imagenes/alumnos/ana_baron.jpg",
+    "legacyPage": "Archive/ANUARIO/paginas11/sonali.htm",
+    "image": "Archive/ANUARIO/imagenes/alumnos/sonali.jpg",
     "hasProfileImage": true
   },
   {

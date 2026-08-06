@@ -1,7 +1,7 @@
 import { students } from './students.js';
 
 const sections = [
-  { name: 'Pagina principal', active: false },
+  { name: 'Página principal', active: false },
   { name: 'Palabras de despedida', active: false },
   { name: 'Personal administrativo', active: false },
   { name: 'Servicios generales', active: false },
@@ -10,7 +10,7 @@ const sections = [
   { name: 'Pre-escolar', active: false },
   { name: 'Primaria', active: false },
   { name: 'Bachillerato', active: false },
-  { name: 'Comites', active: false },
+  { name: 'Comités', active: false },
   { name: 'Equipos', active: false },
   { name: 'Parejas', active: false },
   { name: 'Hermanos', active: false },
