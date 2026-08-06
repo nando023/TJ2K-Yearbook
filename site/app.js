@@ -1,7 +1,7 @@
 import { students } from './students.js';
 
 const sections = [
-  { name: 'Página principal', active: false },
+  { name: 'Página principal', active: true, href: '#inicio' },
   { name: 'Palabras de despedida', active: true, href: '#palabras' },
   { name: 'Personal administrativo', active: true, href: '#personal-administrativo' },
   { name: 'Servicios generales', active: true, href: '#servicios-generales' },

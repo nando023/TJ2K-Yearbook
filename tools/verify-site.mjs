@@ -10,6 +10,12 @@ const appJs = fs.readFileSync(path.join(siteDir, "app.js"), "utf8");
 const stylesCss = fs.readFileSync(path.join(siteDir, "styles.css"), "utf8");
 const studentsModule = fs.readFileSync(path.join(siteDir, "students.js"), "utf8");
 const { students } = await import(`data:text/javascript;base64,${Buffer.from(studentsModule).toString("base64")}`);
+const requiredMainAssets = [
+  "assets/main/fondo-principal.jpg",
+  "assets/main/indice-fondo.gif",
+  "assets/main/jeferon.jpg",
+  "assets/main/logo-viejo.jpg",
+];
 const requiredPromAssets = [
   "assets/prom-2000/fondo-prom.jpg",
   "assets/prom-2000/once-a.jpg",
@@ -181,6 +187,12 @@ const expectedCollageArchiveCopies = [
   { source: "collage.jpg", asset: "assets/collage/momentos-11-2.jpg" },
   { source: "collag_ebebes.jpg", asset: "assets/collage/bebes.jpg" },
 ];
+const expectedMainArchiveCopies = [
+  { source: "FONDO_PRINCIPAL.jpg", asset: "assets/main/fondo-principal.jpg" },
+  { source: "image001.gif", asset: "assets/main/indice-fondo.gif" },
+  { source: "NUEVAS FOTOS/JEFERSON.jpg", asset: "assets/main/jeferon.jpg" },
+  { source: "logo1-viejo.jpg", asset: "assets/main/logo-viejo.jpg" },
+];
 const expectedBachilleratoCards = [
   {
     title: "Sexto A",
@@ -342,6 +354,12 @@ function assertSameFileBytes(sourceFile, siteAsset, label) {
 }
 
 assert(indexHtml.includes('lang="es"'), "index.html must declare Spanish language");
+assert(indexHtml.includes('id="inicio"'), "Main page entry target must exist");
+assert(indexHtml.includes('href="#inicio">Inicio</a>'), "Top navigation must link to Inicio");
+assert(indexHtml.includes('href="#secciones">Entrar</a>'), "Main page hero must preserve Entrar as the primary action");
+assert(indexHtml.includes('class="hero__screen"'), "Main page must recreate the original index menu as static HTML");
+assert(indexHtml.includes('src="./assets/main/jeferon.jpg"'), "Main page must include the original Jeferon image cue");
+assert(indexHtml.includes('src="./assets/main/logo-viejo.jpg"'), "Main page must include the old logo asset");
 assert(indexHtml.includes('id="prom-2000"'), "Prom 2000 section must exist");
 assert(indexHtml.includes('id="palabras"'), "Palabras section must exist");
 assert(indexHtml.includes('id="personal-administrativo"'), "Personal administrativo section must exist");
@@ -497,6 +515,8 @@ assert(
   "Nasbly must render the positioned legacy text block",
 );
 
+const activeMainSections = appJs.match(/\{\s*name:\s*'Página principal',\s*active:\s*true,\s*href:\s*'#inicio'\s*\}/g) || [];
+assert(activeMainSections.length === 1, "app.js must declare exactly one active Página principal section");
 const activeProm2000Sections = appJs.match(/\{\s*name:\s*'Prom 2000',\s*active:\s*true,\s*href:\s*'#prom-2000'\s*\}/g) || [];
 assert(activeProm2000Sections.length === 1, "app.js must declare exactly one active Prom 2000 section");
 const activePalabrasSections = appJs.match(/\{\s*name:\s*'Palabras de despedida',\s*active:\s*true,\s*href:\s*'#palabras'\s*\}/g) || [];
@@ -523,6 +543,10 @@ const activeHermanosSections = appJs.match(/\{\s*name:\s*'Hermanos',\s*active:\s
 assert(activeHermanosSections.length === 1, "app.js must declare exactly one active Hermanos section");
 const activeCollageSections = appJs.match(/\{\s*name:\s*'Collage',\s*active:\s*true,\s*href:\s*'#collage'\s*\}/g) || [];
 assert(activeCollageSections.length === 1, "app.js must declare exactly one active Collage section");
+assert(
+  appJs.indexOf("name: 'Página principal'") < appJs.indexOf("name: 'Palabras de despedida'"),
+  "app.js must keep Página principal before Palabras to match the archive section order",
+);
 assert(
   appJs.indexOf("name: 'Prom 2000'") < appJs.indexOf("name: 'Pre-escolar'"),
   "app.js must keep Prom 2000 before Pre-escolar to match the archive section order",
@@ -554,6 +578,10 @@ assert(
 assert(
   appJs.indexOf("name: 'Hermanos'") < appJs.indexOf("name: 'Collage'"),
   "app.js must keep Hermanos before Collage to match the archive section order",
+);
+assert(
+  indexHtml.indexOf('href="#inicio"') < indexHtml.indexOf('href="#secciones"'),
+  "top navigation must keep Inicio before Secciones",
 );
 assert(
   indexHtml.indexOf('href="#prom-2000"') < indexHtml.indexOf('href="#preescolar"'),
@@ -679,6 +707,14 @@ for (const student of articleStudents) {
   }
 }
 
+for (const asset of requiredMainAssets) {
+  assert(fs.existsSync(path.join(siteDir, asset)), `Main page asset must exist: ${asset}`);
+  assert(
+    indexHtml.includes(asset) || stylesCss.includes(asset),
+    `Main page asset must be referenced by the static site: ${asset}`,
+  );
+}
+
 for (const asset of requiredPromAssets) {
   assert(fs.existsSync(path.join(siteDir, asset)), `Prom 2000 asset must exist: ${asset}`);
   assert(
@@ -789,6 +825,10 @@ for (const copy of expectedCollageArchiveCopies) {
   assertSameFileBytes(copy.source, copy.asset, "Collage");
 }
 
+for (const copy of expectedMainArchiveCopies) {
+  assertSameFileBytes(copy.source, copy.asset, "Main page");
+}
+
 const bachilleratoSection = indexHtml.match(/<section id="bachillerato"[\s\S]*?<\/section>\s*<\/main>/)?.[0] || "";
 const bachilleratoCardMatches = [...bachilleratoSection.matchAll(/<article class="bachillerato-card">([\s\S]*?)<\/article>/g)];
 assert(bachilleratoCardMatches.length === expectedBachilleratoCards.length, "Bachillerato must render exactly 12 class cards");
@@ -855,6 +895,16 @@ expectedCollageCards.forEach((expected, index) => {
 
 assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
 assert(appJs.includes("renderLegacyArticle(student)"), "app.js must render article alumni layouts");
+assert(stylesCss.includes("assets/main/fondo-principal.jpg"), "Main page must use the original principal background");
+assert(stylesCss.includes("assets/main/indice-fondo.gif"), "Main page must use the original index background");
+assert(stylesCss.includes(".hero__screen"), "styles.css must style the main page static index screen");
+assert(stylesCss.includes("@keyframes portrait-path"), "styles.css must replace the original moving image timeline with CSS animation");
+assert(stylesCss.includes("scroll-margin-top"), "Section anchors must offset the sticky header");
+assert(stylesCss.includes("@media (max-width: 900px)"), "Main page must stack the hero at tablet widths");
+assert(
+  /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*?\.hero__portrait,[\s\S]*?animation:\s*none;/i.test(stylesCss),
+  "Main page CSS animation must respect reduced-motion preferences",
+);
 assert(stylesCss.includes(".legacy-layout"), "styles.css must style composite alumni layouts");
 assert(stylesCss.includes(".legacy-article"), "styles.css must style article alumni layouts");
 assert(stylesCss.includes(".palabras-composite"), "styles.css must style the Gonzalo Serna composite");

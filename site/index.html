@@ -13,6 +13,7 @@
     <header class="site-header">
       <a class="brand" href="#inicio" aria-label="Ir al inicio">TJ2K</a>
       <nav class="top-nav" aria-label="Navegación principal">
+        <a href="#inicio">Inicio</a>
         <a href="#secciones">Secciones</a>
         <a href="#palabras">Palabras</a>
         <a href="#personal-administrativo">Administrativo</a>
@@ -33,17 +34,44 @@
     <main id="inicio">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero__content">
-          <p class="hero__year">Anuario virtual</p>
+          <div class="hero__mark" aria-hidden="true">
+            <img src="./assets/main/logo-viejo.jpg" alt="">
+          </div>
+          <p class="hero__year">Anuario virtual TJ2K</p>
           <h1 id="hero-title">Prom 2000</h1>
-          <p class="hero__copy">Una versión moderna y adaptable del recuerdo digital de TJ2K.</p>
-          <a class="button button--primary" href="#prom-2000">Ver galería</a>
+          <p class="hero__copy">Una entrada moderna al anuario original, sin Flash y lista para celular.</p>
+          <div class="hero__actions" aria-label="Acciones principales">
+            <a class="button button--primary" href="#secciones">Entrar</a>
+            <a class="button button--secondary" href="#prom-2000">Prom. 2000</a>
+          </div>
+        </div>
+        <div class="hero__stage" aria-hidden="true">
+          <div class="hero__screen">
+            <span class="hero__scanline"></span>
+            <p>Página principal</p>
+            <strong>Secciones</strong>
+            <span>Palabras de despedida</span>
+            <span>Personal administrativo</span>
+            <span>Servicios generales</span>
+            <span>Profesores</span>
+            <span>Prom. 2000</span>
+            <span>Pre-escolar</span>
+            <span>Primaria</span>
+            <span>Bachillerato</span>
+            <span>Comités</span>
+            <span>Equipos</span>
+            <span>Parejas</span>
+            <span>Hermanos</span>
+            <span>Collage</span>
+          </div>
+          <img class="hero__portrait" src="./assets/main/jeferon.jpg" alt="">
         </div>
       </section>
 
       <section id="secciones" class="section section--nav" aria-labelledby="sections-title">
         <div class="section__heading">
           <h2 id="sections-title">Secciones del anuario</h2>
-          <p>Las primeras secciones activas recuperan las palabras de despedida, el personal administrativo, servicios generales, profesores, pre-escolar, primaria, bachillerato, comités, equipos, parejas, hermanos, collage y la galería de Prom 2000.</p>
+          <p>Menú modernizado desde el índice original del anuario. Todas las secciones principales están disponibles en formato estático y adaptable.</p>
         </div>
         <div id="yearbook-sections" class="section-grid"></div>
       </section>
