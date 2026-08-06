@@ -14,7 +14,7 @@ const sections = [
   { name: 'Equipos', active: true, href: '#equipos' },
   { name: 'Parejas', active: true, href: '#parejas' },
   { name: 'Hermanos', active: true, href: '#hermanos' },
-  { name: 'Collage', active: false },
+  { name: 'Collage', active: true, href: '#collage' },
 ];
 
 const sectionContainer = document.querySelector('#yearbook-sections');

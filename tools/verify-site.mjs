@@ -139,6 +139,14 @@ const requiredHermanosAssets = [
   "assets/hermanos/cartel-de-bogota.jpg",
   "assets/hermanos/la-brigada-ska.jpg",
 ];
+const requiredCollageAssets = [
+  "assets/collage/septimo-grado.jpg",
+  "assets/collage/noveno-grado-1.jpg",
+  "assets/collage/noveno-grado-2.jpg",
+  "assets/collage/momentos-11-1.gif",
+  "assets/collage/momentos-11-2.jpg",
+  "assets/collage/bebes.jpg",
+];
 const expectedParejasArchiveCopies = [
   { source: "FONDO_PAREJAS.gif", asset: "assets/parejas/fondo-parejas.gif" },
   { source: "BERNARDO & LUISA2.jpg", asset: "assets/parejas/bernardo-luisa.jpg" },
@@ -164,6 +172,14 @@ const expectedHermanosArchiveCopies = [
   { source: "LOS SUPER AMIGOS.jpg", asset: "assets/hermanos/los-super-amigos.jpg" },
   { source: "CARTEL DE BOGOTA.jpg", asset: "assets/hermanos/cartel-de-bogota.jpg" },
   { source: "LA BRIGADA SKA.jpg", asset: "assets/hermanos/la-brigada-ska.jpg" },
+];
+const expectedCollageArchiveCopies = [
+  { source: "7° Grado collage.jpg", asset: "assets/collage/septimo-grado.jpg" },
+  { source: "9° Grado collage.jpg", asset: "assets/collage/noveno-grado-1.jpg" },
+  { source: "9° Grado collage2.jpg", asset: "assets/collage/noveno-grado-2.jpg" },
+  { source: "collage_momentos_11111.gif", asset: "assets/collage/momentos-11-1.gif" },
+  { source: "collage.jpg", asset: "assets/collage/momentos-11-2.jpg" },
+  { source: "collag_ebebes.jpg", asset: "assets/collage/bebes.jpg" },
 ];
 const expectedBachilleratoCards = [
   {
@@ -292,6 +308,14 @@ const expectedHermanosCards = [
   { title: "Cartel de Bogotá", image: "assets/hermanos/cartel-de-bogota.jpg" },
   { title: "La brigada SKA", image: "assets/hermanos/la-brigada-ska.jpg" },
 ];
+const expectedCollageCards = [
+  { title: "Séptimo grado", image: "assets/collage/septimo-grado.jpg" },
+  { title: "Noveno grado", image: "assets/collage/noveno-grado-1.jpg" },
+  { title: "Noveno grado", image: "assets/collage/noveno-grado-2.jpg" },
+  { title: "Momentos 11", image: "assets/collage/momentos-11-1.gif" },
+  { title: "Momentos 11", image: "assets/collage/momentos-11-2.jpg" },
+  { title: "Bebés", image: "assets/collage/bebes.jpg" },
+];
 
 function assert(condition, message) {
   if (!condition) {
@@ -330,6 +354,7 @@ assert(indexHtml.includes('id="comites"'), "Comités section must exist");
 assert(indexHtml.includes('id="equipos"'), "Equipos section must exist");
 assert(indexHtml.includes('id="parejas"'), "Parejas section must exist");
 assert(indexHtml.includes('id="hermanos"'), "Hermanos section must exist");
+assert(indexHtml.includes('id="collage"'), "Collage section must exist");
 assert(indexHtml.includes("Momentos 11"), "Prom 2000 section must include Momentos 11");
 assert(indexHtml.includes("Palabras 11"), "Palabras section must include Palabras 11");
 assert(indexHtml.includes("Adolfo Ballesteros F. Prom 2000"), "Palabras 11 text must include its signature");
@@ -431,7 +456,13 @@ assert(indexHtml.includes("Familia Bom Bom Bum"), "Hermanos must include Familia
 assert(indexHtml.includes("Cartel de Bogotá"), "Hermanos must include Cartel de Bogotá");
 assert(indexHtml.includes("La brigada SKA"), "Hermanos must include La brigada SKA");
 assert(indexHtml.includes('href="#parejas">Anterior: Parejas</a>'), "Hermanos must link back to Parejas");
-assert(indexHtml.includes("<span>Siguiente: Collage</span>"), "Hermanos must preserve Collage as the next section");
+assert(indexHtml.includes('href="#collage">Siguiente: Collage</a>'), "Hermanos must link forward to Collage");
+assert(indexHtml.includes("Séptimo grado"), "Collage must include Séptimo grado");
+assert(indexHtml.includes("Noveno grado"), "Collage must include Noveno grado");
+assert(indexHtml.includes("Momentos 11"), "Collage must include Momentos 11");
+assert(indexHtml.includes("Bebés"), "Collage must include Bebés");
+assert(indexHtml.includes('href="#hermanos">Anterior: Hermanos</a>'), "Collage must link back to Hermanos");
+assert(indexHtml.includes("<span>Siguiente: Final</span>"), "Collage must preserve Final as the next section");
 assert(!indexHtml.toLowerCase().includes(".swf"), "index.html must not embed Flash");
 assert(!appJs.toLowerCase().includes(".swf"), "app.js must not embed Flash");
 assert(!stylesCss.toLowerCase().includes(".swf"), "styles.css must not reference Flash");
@@ -490,6 +521,8 @@ const activeParejasSections = appJs.match(/\{\s*name:\s*'Parejas',\s*active:\s*t
 assert(activeParejasSections.length === 1, "app.js must declare exactly one active Parejas section");
 const activeHermanosSections = appJs.match(/\{\s*name:\s*'Hermanos',\s*active:\s*true,\s*href:\s*'#hermanos'\s*\}/g) || [];
 assert(activeHermanosSections.length === 1, "app.js must declare exactly one active Hermanos section");
+const activeCollageSections = appJs.match(/\{\s*name:\s*'Collage',\s*active:\s*true,\s*href:\s*'#collage'\s*\}/g) || [];
+assert(activeCollageSections.length === 1, "app.js must declare exactly one active Collage section");
 assert(
   appJs.indexOf("name: 'Prom 2000'") < appJs.indexOf("name: 'Pre-escolar'"),
   "app.js must keep Prom 2000 before Pre-escolar to match the archive section order",
@@ -517,6 +550,10 @@ assert(
 assert(
   appJs.indexOf("name: 'Parejas'") < appJs.indexOf("name: 'Hermanos'"),
   "app.js must keep Parejas before Hermanos to match the archive section order",
+);
+assert(
+  appJs.indexOf("name: 'Hermanos'") < appJs.indexOf("name: 'Collage'"),
+  "app.js must keep Hermanos before Collage to match the archive section order",
 );
 assert(
   indexHtml.indexOf('href="#prom-2000"') < indexHtml.indexOf('href="#preescolar"'),
@@ -569,6 +606,14 @@ assert(
 assert(
   indexHtml.indexOf('id="parejas"') < indexHtml.indexOf('id="hermanos"'),
   "page sections must keep Parejas before Hermanos",
+);
+assert(
+  indexHtml.indexOf('href="#hermanos"') < indexHtml.indexOf('href="#collage"'),
+  "top navigation must keep Hermanos before Collage",
+);
+assert(
+  indexHtml.indexOf('id="hermanos"') < indexHtml.indexOf('id="collage"'),
+  "page sections must keep Hermanos before Collage",
 );
 assert(
   appJs.includes("item.textContent = active ? name : `${name} (pendiente)`;"),
@@ -724,12 +769,24 @@ for (const asset of requiredHermanosAssets) {
   );
 }
 
+for (const asset of requiredCollageAssets) {
+  assert(fs.existsSync(path.join(siteDir, asset)), `Collage asset must exist: ${asset}`);
+  assert(
+    indexHtml.includes(asset) || stylesCss.includes(asset),
+    `Collage asset must be referenced by the static site: ${asset}`,
+  );
+}
+
 for (const copy of expectedParejasArchiveCopies) {
   assertSameFileBytes(copy.source, copy.asset, "Parejas");
 }
 
 for (const copy of expectedHermanosArchiveCopies) {
   assertSameFileBytes(copy.source, copy.asset, "Hermanos");
+}
+
+for (const copy of expectedCollageArchiveCopies) {
+  assertSameFileBytes(copy.source, copy.asset, "Collage");
 }
 
 const bachilleratoSection = indexHtml.match(/<section id="bachillerato"[\s\S]*?<\/section>\s*<\/main>/)?.[0] || "";
@@ -786,6 +843,16 @@ expectedHermanosCards.forEach((expected, index) => {
   assert(card.includes(`src="./${expected.image}"`), `${expected.title} must use ${expected.image}`);
 });
 
+const collageSection = indexHtml.match(/<section id="collage"[\s\S]*?<\/section>\s*<\/main>/)?.[0] || "";
+const collageCardMatches = [...collageSection.matchAll(/<figure class="collage-card[^"]*">([\s\S]*?)<\/figure>/g)];
+assert(collageCardMatches.length === expectedCollageCards.length, "Collage must render exactly six photo cards");
+
+expectedCollageCards.forEach((expected, index) => {
+  const card = collageCardMatches[index]?.[1] || "";
+  assert(card.includes(`<figcaption>${expected.title}</figcaption>`), `Collage card ${index + 1} must be ${expected.title}`);
+  assert(card.includes(`src="./${expected.image}"`), `${expected.title} must use ${expected.image}`);
+});
+
 assert(appJs.includes("renderLegacyLayout(student)"), "app.js must render composite alumni layouts");
 assert(appJs.includes("renderLegacyArticle(student)"), "app.js must render article alumni layouts");
 assert(stylesCss.includes(".legacy-layout"), "styles.css must style composite alumni layouts");
@@ -800,6 +867,9 @@ assert(stylesCss.includes("assets/parejas/fondo-parejas.gif"), "Parejas must use
 assert(stylesCss.includes(".pareja-card img {\n  display: block;\n  width: 100%;\n  height: auto;"), "Parejas images must render uncropped with natural aspect ratio");
 assert(stylesCss.includes("assets/hermanos/fondo-hermanos.jpg"), "Hermanos must use its original background");
 assert(stylesCss.includes(".hermano-card img {\n  display: block;\n  width: 100%;\n  height: auto;"), "Hermanos images must render uncropped with natural aspect ratio");
+assert(stylesCss.includes(".section--collage"), "styles.css must style Collage section");
+assert(stylesCss.includes(".collage-card img {\n  display: block;\n  width: 100%;\n  height: auto;"), "Collage images must render uncropped with natural aspect ratio");
+assert(stylesCss.includes(".collage-card--landscape {\n    grid-column: auto;"), "Collage landscape cards must reset span on mobile");
 assert(stylesCss.includes(".staff-grid"), "styles.css must style Personal administrativo staff grid");
 assert(stylesCss.includes(".services-layout"), "styles.css must style Servicios generales layout");
 assert(stylesCss.includes(".teacher-grid"), "styles.css must style Profesores teacher grid");
@@ -810,6 +880,7 @@ assert(stylesCss.includes(".comites-layout"), "styles.css must style Comités la
 assert(stylesCss.includes(".equipos-layout"), "styles.css must style Equipos layout");
 assert(stylesCss.includes(".parejas-layout"), "styles.css must style Parejas layout");
 assert(stylesCss.includes(".hermanos-layout"), "styles.css must style Hermanos layout");
+assert(stylesCss.includes(".collage-layout"), "styles.css must style Collage layout");
 assert(stylesCss.includes(".section-sequence"), "styles.css must style section sequence navigation");
 
 if (!process.exitCode) console.log("Static site verification passed.");

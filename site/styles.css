@@ -987,6 +987,59 @@ h3 {
   text-align: center;
 }
 
+.section--collage {
+  width: 100%;
+  max-width: none;
+  padding-right: max(5vw, calc((100vw - 1100px) / 2));
+  padding-left: max(5vw, calc((100vw - 1100px) / 2));
+  background:
+    linear-gradient(135deg, rgb(16 20 27 / 94%), rgb(32 65 94 / 84)),
+    #336699;
+  border-top: 1px solid #303a49;
+}
+
+.section--collage > * {
+  width: min(100%, 1100px);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.collage-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.collage-card {
+  display: grid;
+  align-content: space-between;
+  gap: 0.85rem;
+  min-height: 100%;
+  padding: 0.85rem;
+  background: rgb(8 11 17 / 82%);
+  border: 1px solid #303a49;
+  border-radius: 8px;
+}
+
+.collage-card--landscape {
+  grid-column: span 2;
+}
+
+.collage-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #10141b;
+  border-radius: 5px;
+}
+
+.collage-card figcaption {
+  color: #ffffff;
+  font-weight: 700;
+  text-align: center;
+}
+
 .section--students {
   width: 100%;
   max-width: none;
@@ -1361,6 +1414,10 @@ h3 {
   .prom-class-photos,
   .moments-grid {
     grid-template-columns: 1fr;
+  }
+
+  .collage-card--landscape {
+    grid-column: auto;
   }
 
   .prom-class-photos,
